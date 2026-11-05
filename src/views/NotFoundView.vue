@@ -12,7 +12,6 @@ function openSearch() {
       <Icon name="search" :size="30" />
       <span>404</span>
     </div>
-    <span class="eyebrow orange">SIGNAL LOST</span>
     <h1>页面不存在</h1>
     <p>这个地址可能已经变更，或者文档还没有发布。可以回到知识库首页重新查找。</p>
     <div class="nf-actions">
@@ -48,7 +47,8 @@ function openSearch() {
   font-size: 34px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #d5e1ee;
+  color: var(--muted-2);
+  font-variant-numeric: tabular-nums;
 }
 
 .not-found h1 {
@@ -58,11 +58,11 @@ function openSearch() {
 }
 
 .not-found p {
-  max-width: 440px;
+  max-width: 460px;
   margin-bottom: 24px;
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.8;
-  color: #6f849a;
+  color: var(--muted);
 }
 
 .nf-actions {

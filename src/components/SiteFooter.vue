@@ -11,11 +11,11 @@ import Icon from './Icon.vue'
           HIKROBOT <b>KB</b>
         </span>
         <p>面向固定式读码器、手持巴枪与 PDA 场景的读码知识库。把选型、部署、通讯和排障放在同一个入口。</p>
-        <span class="footer-tag">KNOWLEDGE&nbsp;CENTER&nbsp;/&nbsp;SAMPLE&nbsp;BUILD</span>
+        <span class="footer-tag">示例知识库 · 非官方站点</span>
       </div>
 
       <div class="footer-col">
-        <h4>知识栏目</h4>
+        <h3>知识栏目</h3>
         <RouterLink to="/category/selection">产品与选型</RouterLink>
         <RouterLink to="/category/installation">安装与光学</RouterLink>
         <RouterLink to="/category/software">调试与软件</RouterLink>
@@ -24,7 +24,7 @@ import Icon from './Icon.vue'
       </div>
 
       <div class="footer-col">
-        <h4>官方资源</h4>
+        <h3>官方资源</h3>
         <a href="https://www.hikrobotics.com/cn/machinevision/visionproduct/?typeId=189" target="_blank" rel="noopener">
           读码器产品页 <Icon name="external" :size="11" />
         </a>
@@ -53,12 +53,8 @@ import Icon from './Icon.vue'
 <style scoped>
 .site-footer {
   margin-top: 56px;
-  color: #9db4cc;
-  background:
-    linear-gradient(rgba(47, 155, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(47, 155, 255, 0.04) 1px, transparent 1px),
-    #07111f;
-  background-size: 28px 28px;
+  color: #a7bdd4;
+  background: #07111f;
   border-top: 1px solid #1b3350;
 }
 
@@ -74,24 +70,23 @@ import Icon from './Icon.vue'
 .footer-brand p {
   max-width: 390px;
   margin: 14px 0 16px;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
-  color: #748ca5;
+  color: #a7bdd4;
 }
 
 .footer-logo {
   display: flex;
   align-items: center;
   gap: 9px;
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  color: #dce9f7;
+  letter-spacing: 0.08em;
+  color: #e2eefb;
 }
 
 .footer-logo b {
-  color: #42a5ff;
+  color: #6cbcff;
 }
 
 .footer-bars {
@@ -125,35 +120,33 @@ import Icon from './Icon.vue'
 
 .footer-tag {
   display: inline-block;
-  padding: 4px 8px;
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 8px;
-  letter-spacing: 0.12em;
-  color: #5f7c9d;
-  border: 1px solid #1d3550;
+  padding: 5px 9px;
+  font-size: 12px;
+  color: #a7bdd4;
+  border: 1px solid #2a4663;
   border-radius: 2px;
 }
 
 .footer-col {
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
 }
 
-.footer-col h4 {
+.footer-col h3 {
   margin: 2px 0 6px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.16em;
-  color: #7894b0;
+  letter-spacing: 0.06em;
+  color: #8fa6bd;
 }
 
 .footer-col a {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 11.5px;
-  color: #8fa9c3;
+  font-size: 13.5px;
+  color: #b4c8de;
   text-decoration: none;
   transition: color 0.16s ease;
 }
@@ -167,21 +160,22 @@ import Icon from './Icon.vue'
   flex-wrap: wrap;
   align-items: center;
   gap: 10px 22px;
-  padding: 15px 40px;
-  font-size: 9.5px;
-  color: #5b7590;
+  padding: 16px 40px;
+  font-size: 12px;
+  color: #8fa6bd;
   border-top: 1px solid #132941;
 }
 
 .footer-disclaimer {
   flex: 1;
-  min-width: 300px;
+  min-width: 0;
 }
 
 .footer-build {
   font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  letter-spacing: 0.08em;
-  color: #55708c;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: #8fa6bd;
 }
 
 @media (max-width: 860px) {
@@ -195,6 +189,12 @@ import Icon from './Icon.vue'
   }
   .footer-bottom {
     padding: 14px 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>

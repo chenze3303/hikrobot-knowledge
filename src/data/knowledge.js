@@ -76,7 +76,8 @@ export const articles = Object.entries(files)
     const parts = path.split('/')
     const slug = parts.pop().replace(/\.md$/, '')
     const categoryId = data.category || parts.pop()
-    const plain = stripMarkdown(content)
+    const body = content.replace(/^\s*#\s+.*(?:\r?\n)+/, '')
+    const plain = stripMarkdown(body)
     return {
       slug,
       categoryId,
@@ -88,7 +89,7 @@ export const articles = Object.entries(files)
       updated: data.updated || '2026-10-01',
       order: Number(data.order || 99),
       featured: Boolean(data.featured),
-      body: content,
+      body,
       plain,
       readTime: estimateReadTime(plain)
     }

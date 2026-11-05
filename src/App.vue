@@ -26,15 +26,21 @@ function isTyping(target) {
 }
 
 function onResize() {
-  if (window.innerWidth > 1024 && navOpen.value) {
+  if (window.innerWidth > 1200 && navOpen.value) {
     navOpen.value = false
   }
 }
 
 function onGlobalKeydown(event) {
-  if (event.key === 'Escape' && searchOpen.value) {
-    searchOpen.value = false
-    return
+  if (event.key === 'Escape') {
+    if (searchOpen.value) {
+      searchOpen.value = false
+      return
+    }
+    if (navOpen.value) {
+      navOpen.value = false
+      return
+    }
   }
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
     event.preventDefault()
@@ -88,16 +94,17 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="app-shell">
+    <a class="skip-link" href="#main-content">跳到正文</a>
     <AppHeader :nav-open="navOpen" @search="searchOpen = true" @toggle-nav="navOpen = !navOpen" />
 
     <div class="app-body">
       <SideNav :open="navOpen" @close="navOpen = false" @search="searchOpen = true" />
 
       <Transition name="fade">
-        <div v-if="navOpen" class="nav-backdrop" @click="navOpen = false" />
+        <div v-if="navOpen" class="nav-backdrop" aria-hidden="true" @click="navOpen = false" />
       </Transition>
 
-      <main class="app-main">
+      <main id="main-content" class="app-main">
         <RouterView />
         <SiteFooter />
       </main>
@@ -122,6 +129,25 @@ onBeforeUnmount(() => {
 .app-main {
   flex: 1;
   min-width: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 120;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  background: #0b63bd;
+  border-radius: 3px;
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 .nav-backdrop {

@@ -13,7 +13,9 @@ const emit = defineEmits(['update:open'])
 
 const query = ref('')
 const inputRef = ref(null)
+const panelRef = ref(null)
 const activeIndex = ref(0)
+const lastActive = ref(null)
 const router = useRouter()
 
 const results = computed(() => searchArticles(query.value).slice(0, 12))
@@ -24,10 +26,14 @@ watch(
   () => props.open,
   async (open) => {
     if (open) {
+      lastActive.value = document.activeElement
       query.value = props.initialQuery || ''
       activeIndex.value = 0
       await nextTick()
       inputRef.value?.focus()
+    } else {
+      lastActive.value?.focus?.()
+      lastActive.value = null
     }
   }
 )
@@ -65,6 +71,23 @@ function onKeydown(event) {
   }
 }
 
+function onPanelKeydown(event) {
+  if (event.key !== 'Tab' || !panelRef.value) return
+  const nodes = [...panelRef.value.querySelectorAll('button, input, a[href]')].filter(
+    (el) => !el.disabled && el.offsetParent !== null
+  )
+  if (!nodes.length) return
+  const first = nodes[0]
+  const last = nodes[nodes.length - 1]
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault()
+    last.focus()
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault()
+    first.focus()
+  }
+}
+
 function escapeHtml(text) {
   return text
     .replace(/&/g, '&amp;')
@@ -86,7 +109,7 @@ function highlight(text) {
   <Teleport to="body">
     <Transition name="search-fade">
       <div v-if="open" class="search-layer" @mousedown.self="close">
-        <div class="search-panel" role="dialog" aria-modal="true" aria-label="搜索文档">
+        <div ref="panelRef" class="search-panel" role="dialog" aria-modal="true" aria-label="搜索文档" @keydown="onPanelKeydown">
           <div class="search-head">
             <div class="search-input-wrap">
               <Icon name="search" :size="19" />
@@ -94,6 +117,7 @@ function highlight(text) {
                 ref="inputRef"
                 v-model="query"
                 type="search"
+                aria-label="搜索文档"
                 placeholder="搜索型号、故障现象、协议或参数…"
                 autocomplete="off"
                 @keydown="onKeydown"
@@ -135,7 +159,7 @@ function highlight(text) {
             </div>
 
             <div v-else class="search-results">
-              <div class="search-section-label">
+              <div class="search-section-label" aria-live="polite">
                 找到 {{ results.length }} 篇文档
                 <span>使用 ↑ ↓ 选择，Enter 打开</span>
               </div>
@@ -202,10 +226,12 @@ function highlight(text) {
   align-items: center;
   gap: 8px;
   padding: 14px 14px 14px 18px;
-  background:
-    linear-gradient(90deg, rgba(47, 155, 255, 0.1), transparent 40%),
-    #07111f;
+  background: #07111f;
   border-bottom: 1px solid rgba(112, 160, 214, 0.25);
+}
+
+.search-head :focus-visible {
+  outline-color: #7cc4ff;
 }
 
 .search-input-wrap {
@@ -213,23 +239,23 @@ function highlight(text) {
   flex: 1;
   align-items: center;
   gap: 11px;
-  height: 46px;
+  height: 48px;
   padding: 0 12px;
-  color: #6fa6d8;
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(146, 186, 228, 0.35);
+  color: #8fa6bd;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(146, 186, 228, 0.38);
   border-radius: 3px;
 }
 
 .search-input-wrap:focus-within {
-  border-color: #2f9bff;
-  box-shadow: 0 0 0 3px rgba(47, 155, 255, 0.14);
+  border-color: #4aa8ff;
+  box-shadow: 0 0 0 3px rgba(47, 155, 255, 0.16);
 }
 
 .search-input-wrap input {
   flex: 1;
   min-width: 0;
-  font-size: 15px;
+  font-size: 16px;
   color: #f3f8ff;
   background: transparent;
   border: 0;
@@ -237,7 +263,7 @@ function highlight(text) {
 }
 
 .search-input-wrap input::placeholder {
-  color: #7e9bb9;
+  color: #9db4cc;
 }
 
 .search-input-wrap input::-webkit-search-cancel-button {
@@ -245,20 +271,20 @@ function highlight(text) {
 }
 
 .search-input-wrap kbd {
-  padding: 3px 6px;
+  padding: 3px 7px;
   font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 9px;
-  color: #7e9bb9;
-  border: 1px solid rgba(146, 186, 228, 0.3);
+  font-size: 11px;
+  color: #a7bdd4;
+  border: 1px solid rgba(146, 186, 228, 0.34);
   border-radius: 2px;
 }
 
 .search-close {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  color: #9ab4d0;
+  width: 38px;
+  height: 38px;
+  color: #b4c8de;
   background: transparent;
   border: 1px solid transparent;
   border-radius: 3px;
@@ -267,7 +293,7 @@ function highlight(text) {
 
 .search-close:hover {
   color: #fff;
-  border-color: rgba(146, 186, 228, 0.3);
+  border-color: rgba(146, 186, 228, 0.34);
 }
 
 .search-body {
@@ -280,18 +306,18 @@ function highlight(text) {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   margin-bottom: 10px;
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 9.5px;
-  letter-spacing: 0.14em;
-  color: #8698ad;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
 }
 
 .search-section-label span {
-  letter-spacing: 0.02em;
-  text-transform: none;
-  color: #a3b2c3;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted-2);
 }
 
 .hot-list {
@@ -302,14 +328,14 @@ function highlight(text) {
 }
 
 .hot-list button {
-  padding: 7px 11px;
-  font-size: 12px;
+  padding: 7px 12px;
+  font-size: 13px;
   color: #2c4a68;
   background: #f2f7fd;
   border: 1px solid #dbe8f5;
   border-radius: 3px;
   cursor: pointer;
-  transition: all 0.16s ease;
+  transition: color 0.16s ease, background 0.16s ease, border-color 0.16s ease;
 }
 
 .hot-list button:hover {
@@ -327,7 +353,7 @@ function highlight(text) {
   align-items: center;
   gap: 10px;
   width: 100%;
-  padding: 9px 10px;
+  padding: 10px;
   color: #38506a;
   text-align: left;
   background: transparent;
@@ -343,12 +369,12 @@ function highlight(text) {
 
 .recent-row span {
   flex: 1;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .recent-row small {
-  font-size: 10px;
-  color: #93a5b8;
+  font-size: 12px;
+  color: var(--muted);
 }
 
 .search-results {
@@ -362,7 +388,7 @@ function highlight(text) {
   align-items: flex-start;
   gap: 12px;
   width: 100%;
-  padding: 11px 10px;
+  padding: 12px 10px;
   text-align: left;
   background: transparent;
   border: 1px solid transparent;
@@ -378,12 +404,8 @@ function highlight(text) {
 .result-icon {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 28px;
   color: #5c7893;
-  background: #fff;
-  border: 1px solid #dce8f3;
-  border-radius: 3px;
   flex: none;
 }
 
@@ -396,7 +418,7 @@ function highlight(text) {
 }
 
 .result-title {
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   color: #152a41;
 }
@@ -412,9 +434,9 @@ function highlight(text) {
 .result-snippet {
   display: -webkit-box;
   overflow: hidden;
-  font-size: 11.5px;
-  line-height: 1.55;
-  color: #74879b;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted);
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
@@ -422,30 +444,30 @@ function highlight(text) {
 .result-tags {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   margin-top: 2px;
 }
 
 .result-tags b {
-  font-size: 9px;
+  font-size: 11.5px;
   font-weight: 600;
-  color: #2f9bff;
+  color: #0b63bd;
 }
 
 .result-tags i {
-  font-size: 9px;
+  font-size: 11.5px;
   font-style: normal;
-  color: #8fa1b4;
+  color: var(--muted);
 }
 
 .result-arrow {
-  margin-top: 7px;
-  color: #9db0c3;
+  margin-top: 6px;
+  color: var(--muted-2);
   opacity: 0;
 }
 
 .result-row.active .result-arrow {
-  color: #2f9bff;
+  color: #0b63bd;
   opacity: 1;
 }
 
@@ -456,27 +478,27 @@ function highlight(text) {
   justify-content: center;
   gap: 8px;
   padding: 50px 20px 60px;
-  color: #9bacc0;
+  color: var(--muted-2);
 }
 
 .search-empty p {
   margin: 4px 0 0;
-  font-size: 14px;
+  font-size: 15px;
   color: #314b66;
 }
 
 .search-empty span {
-  font-size: 11px;
-  color: #96a8bb;
+  font-size: 13px;
+  color: var(--muted);
 }
 
 .search-foot {
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 10px 18px;
-  font-size: 10px;
-  color: #8a9cb0;
+  padding: 11px 18px;
+  font-size: 12px;
+  color: var(--muted);
   background: #f8fafc;
   border-top: 1px solid #e6edf5;
 }
@@ -488,11 +510,11 @@ function highlight(text) {
 }
 
 .legend-key {
-  padding: 1px 5px;
+  padding: 1px 6px;
   font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 8px;
+  font-size: 11px;
   font-style: normal;
-  color: #6e8499;
+  color: var(--muted-2);
   background: #fff;
   border: 1px solid #dce6f0;
   border-radius: 2px;
@@ -500,10 +522,9 @@ function highlight(text) {
 
 .foot-note {
   margin-left: auto;
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 8.5px;
-  letter-spacing: 0.06em;
-  color: #a5b4c5;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--muted-2);
 }
 
 .search-fade-enter-active,

@@ -54,15 +54,12 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 </script>
 
 <template>
-  <aside class="side-nav" :class="{ open }">
+  <aside id="side-nav" class="side-nav" :class="{ open }">
     <div class="side-top">
-      <div class="side-title-row">
-        <span class="side-kicker">LIBRARY</span>
-        <button class="side-close" type="button" aria-label="关闭目录" @click="emit('close')">
-          <Icon name="close" :size="16" />
-        </button>
-      </div>
-      <h2>知识库</h2>
+      <button class="side-close" type="button" aria-label="关闭目录" @click="emit('close')">
+        <Icon name="close" :size="16" />
+      </button>
+      <div class="side-title">知识库</div>
       <button class="side-search" type="button" @click="emit('search')">
         <Icon name="search" :size="15" />
         <span>搜索型号、故障或参数</span>
@@ -73,14 +70,17 @@ const groupCategories = (group) => categories.filter((category) => group.categor
     <nav class="side-tree" aria-label="知识库目录">
       <section v-for="group in groups" :key="group.id" class="tree-group">
         <div class="group-head">
-          <span class="group-index">{{ group.index }}</span>
           <span class="group-label">{{ group.label }}</span>
           <span class="group-line" />
         </div>
 
         <div v-for="category in groupCategories(group)" :key="category.id" class="tree-category">
           <div class="category-row" :class="{ active: activeCategory === category.id }">
-            <RouterLink :to="`/category/${category.id}`" class="category-main">
+            <RouterLink
+              :to="`/category/${category.id}`"
+              class="category-main"
+              :aria-current="route.name === 'category' && activeCategory === category.id ? 'page' : undefined"
+            >
               <span class="category-icon"><Icon :name="category.icon" :size="16" /></span>
               <span class="category-name">{{ category.title }}</span>
               <span class="category-count">{{ countOf(category.id) }}</span>
@@ -103,6 +103,7 @@ const groupCategories = (group) => categories.filter((category) => group.categor
               :to="`/article/${article.slug}`"
               class="article-link"
               :class="{ active: activeArticle === article.slug }"
+              :aria-current="activeArticle === article.slug ? 'page' : undefined"
             >
               <span class="article-dot" />
               <span>{{ article.title }}</span>
@@ -134,42 +135,31 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 }
 
 .side-top {
+  position: relative;
   padding: 24px 22px 18px;
   border-bottom: 1px solid #e4ebf3;
-  background:
-    linear-gradient(180deg, rgba(47, 155, 255, 0.05), transparent),
-    #fbfcfe;
-}
-
-.side-title-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.side-kicker {
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  color: #8aa1ba;
+  background: #fbfcfe;
 }
 
 .side-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
   display: none;
-  width: 28px;
-  height: 28px;
-  color: #60748a;
-  background: transparent;
+  width: 30px;
+  height: 30px;
+  color: #40566d;
+  background: #fff;
   border: 1px solid #dbe5ef;
   border-radius: 3px;
   cursor: pointer;
 }
 
-.side-top h2 {
-  margin: 7px 0 15px;
-  font-size: 19px;
+.side-title {
+  margin: 0 0 15px;
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   color: #122238;
 }
 
@@ -178,9 +168,9 @@ const groupCategories = (group) => categories.filter((category) => group.categor
   align-items: center;
   gap: 8px;
   width: 100%;
-  height: 36px;
+  height: 38px;
   padding: 0 10px;
-  color: #7a8ea5;
+  color: var(--muted-2);
   background: #fff;
   border: 1px solid #d8e3ef;
   border-radius: 4px;
@@ -189,23 +179,23 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 }
 
 .side-search:hover {
-  border-color: #2f9bff;
+  border-color: #0b63bd;
 }
 
 .side-search span {
   flex: 1;
   overflow: hidden;
-  font-size: 12px;
+  font-size: 13.5px;
   text-align: left;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .side-search kbd {
-  padding: 1px 5px;
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 9px;
-  color: #7d93aa;
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted-2);
   border: 1px solid #dbe4ee;
   border-radius: 2px;
 }
@@ -219,27 +209,21 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 }
 
 .tree-group + .tree-group {
-  margin-top: 18px;
+  margin-top: 20px;
 }
 
 .group-head {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 0 8px 8px;
 }
 
-.group-index {
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 9px;
-  color: #2f9bff;
-}
-
 .group-label {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.16em;
-  color: #7a8fa6;
+  letter-spacing: 0.06em;
+  color: var(--muted);
   white-space: nowrap;
 }
 
@@ -262,7 +246,6 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 
 .category-row.active {
   background: #e8f2ff;
-  box-shadow: inset 3px 0 0 #2f9bff;
 }
 
 .category-main {
@@ -279,39 +262,35 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 .category-icon {
   display: grid;
   place-items: center;
-  width: 26px;
-  height: 26px;
   color: #5d7891;
-  background: #fff;
-  border: 1px solid #dce7f2;
-  border-radius: 3px;
+  flex: none;
 }
 
 .category-row.active .category-icon {
-  color: #1173d4;
-  border-color: #b8d8f8;
+  color: #0b63bd;
 }
 
 .category-name {
   flex: 1;
   overflow: hidden;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .category-count {
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 9px;
-  color: #8ba0b6;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--muted-2);
+  font-variant-numeric: tabular-nums;
 }
 
 .category-toggle {
   display: grid;
   place-items: center;
-  width: 28px;
-  color: #8ba0b6;
+  width: 30px;
+  color: var(--muted-2);
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -337,9 +316,9 @@ const groupCategories = (group) => categories.filter((category) => group.categor
   gap: 7px;
   align-items: flex-start;
   padding: 6px 8px;
-  font-size: 11.5px;
-  line-height: 1.45;
-  color: #687c93;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
   text-decoration: none;
   border-radius: 3px;
 }
@@ -350,7 +329,7 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 }
 
 .article-link.active {
-  color: #0c63bd;
+  color: #0b63bd;
   font-weight: 600;
   background: #eaf4ff;
 }
@@ -358,44 +337,44 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 .article-dot {
   width: 4px;
   height: 4px;
-  margin-top: 6px;
-  background: #b6c8da;
+  margin-top: 7px;
+  background: #8ba0b6;
   border-radius: 50%;
   flex: none;
 }
 
 .article-link.active .article-dot {
-  background: #2f9bff;
+  background: #0b63bd;
 }
 
 .tree-note {
   display: flex;
   gap: 8px;
   margin: 24px 8px 0;
-  padding: 11px 10px;
+  padding: 12px 11px;
   background: #fff;
   border: 1px solid #e1e9f2;
-  border-left: 2px solid #ff9a4d;
-  border-radius: 0 3px 3px 0;
+  border-top: 2px solid #ff9a4d;
+  border-radius: 0;
 }
 
 .note-dot {
   width: 6px;
   height: 6px;
-  margin-top: 4px;
-  background: #ff8a2a;
+  margin-top: 5px;
+  background: #d0560a;
   border-radius: 50%;
   flex: none;
 }
 
 .tree-note p {
   margin: 0;
-  font-size: 10px;
-  line-height: 1.6;
-  color: #7d8fa4;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--muted);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .side-nav {
     position: fixed;
     left: 0;

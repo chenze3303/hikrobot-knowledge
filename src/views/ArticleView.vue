@@ -157,7 +157,7 @@ function formatDate(date) {
 
 <template>
   <div v-if="article" class="article-page">
-    <div class="read-progress" :style="{ width: `${progress}%` }" />
+    <div class="read-progress" aria-hidden="true" :style="{ width: `${progress}%` }" />
 
     <div class="page-wrap article-wrap">
       <Breadcrumbs
@@ -240,7 +240,6 @@ function formatDate(date) {
         <aside class="article-rail">
           <div v-if="toc.length" class="rail-card toc-card">
             <div class="rail-title">
-              <span>ON THIS PAGE</span>
               <b>本文目录</b>
             </div>
             <button
@@ -258,7 +257,6 @@ function formatDate(date) {
 
           <div class="rail-card info-card">
             <div class="rail-title">
-              <span>DOC INFO</span>
               <b>文档信息</b>
             </div>
             <div class="info-row"><span>栏目</span><b>{{ article.category.title }}</b></div>
@@ -281,7 +279,6 @@ function formatDate(date) {
       <section v-if="related.length" class="related-section">
         <div class="section-head">
           <div>
-            <span class="eyebrow">RELATED</span>
             <h2>相关文档</h2>
           </div>
           <RouterLink :to="`/category/${article.category.id}`" class="section-link">
@@ -301,7 +298,6 @@ function formatDate(date) {
   </div>
 
   <div v-else class="article-missing page-wrap">
-    <span class="eyebrow">404 / DOCUMENT</span>
     <h1>文档不存在</h1>
     <p>这篇文档可能已经被移动、重命名或删除。</p>
     <RouterLink to="/" class="btn btn-primary">返回知识库</RouterLink>
@@ -332,14 +328,10 @@ function formatDate(date) {
 .article-head {
   margin-top: 20px;
   padding: 30px 34px 26px;
-  background:
-    linear-gradient(rgba(47, 155, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(47, 155, 255, 0.035) 1px, transparent 1px),
-    #fff;
-  background-size: 26px 26px;
+  background: #fff;
   border: 1px solid #dce6f1;
+  border-top: 3px solid #2f9bff;
   border-bottom: 0;
-  border-left: 3px solid #2f9bff;
 }
 
 .head-topline {
@@ -353,8 +345,8 @@ function formatDate(date) {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 8px;
-  font-size: 9.5px;
+  padding: 5px 9px;
+  font-size: 12.5px;
   color: #0b63bd;
   text-decoration: none;
   background: #edf6ff;
@@ -364,25 +356,23 @@ function formatDate(date) {
 
 .head-level,
 .head-note {
-  padding: 3px 7px;
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.06em;
-  color: #7b8fa4;
+  padding: 4px 8px;
+  font-size: 11.5px;
+  color: var(--muted-2);
   border: 1px solid #e0e9f2;
   border-radius: 2px;
 }
 
 .head-note {
-  color: #b56a2c;
+  color: #a34b0a;
   background: #fff8f1;
   border-color: #ffe2c9;
 }
 
 .article-head h1 {
   max-width: 850px;
-  margin: 15px 0 10px;
-  font-size: clamp(26px, 3vw, 34px);
+  margin: 15px 0 11px;
+  font-size: clamp(27px, 3vw, 36px);
   line-height: 1.25;
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -391,9 +381,9 @@ function formatDate(date) {
 
 .article-summary {
   max-width: 800px;
-  font-size: 13px;
-  line-height: 1.85;
-  color: #61768c;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--muted);
 }
 
 .article-meta {
@@ -403,8 +393,8 @@ function formatDate(date) {
   gap: 17px;
   margin-top: 19px;
   padding-top: 15px;
-  font-size: 10px;
-  color: #8ba0b5;
+  font-size: 12.5px;
+  color: var(--muted);
   border-top: 1px dashed #e1e9f2;
 }
 
@@ -416,7 +406,8 @@ function formatDate(date) {
 
 .meta-date {
   font-family: var(--font-mono);
-  font-size: 9px !important;
+  font-size: 12px !important;
+  font-variant-numeric: tabular-nums;
 }
 
 .meta-action {
@@ -424,8 +415,8 @@ function formatDate(date) {
   align-items: center;
   gap: 5px;
   margin-left: auto;
-  font-size: 10px;
-  color: #6f8499;
+  font-size: 12.5px;
+  color: var(--muted-2);
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -454,7 +445,6 @@ function formatDate(date) {
   padding: 32px 34px 30px;
   background: #fff;
   border: 1px solid #dce6f1;
-  border-left: 3px solid #2f9bff;
 }
 
 .article-rail {
@@ -466,7 +456,7 @@ function formatDate(date) {
 }
 
 .rail-card {
-  padding: 15px 15px 14px;
+  padding: 16px 15px 14px;
   background: #fff;
   border: 1px solid #dce6f1;
   border-radius: 3px;
@@ -481,15 +471,8 @@ function formatDate(date) {
   border-bottom: 1px dashed #e1e9f2;
 }
 
-.rail-title span {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.14em;
-  color: #9aacbe;
-}
-
 .rail-title b {
-  font-size: 11.5px;
+  font-size: 14px;
   font-weight: 700;
   color: #2c4a68;
 }
@@ -500,10 +483,10 @@ function formatDate(date) {
   align-items: flex-start;
   gap: 7px;
   width: 100%;
-  padding: 5px 0 5px 7px;
-  font-size: 11px;
-  line-height: 1.5;
-  color: #6f849a;
+  padding: 5px 0 5px 8px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
   text-align: left;
   background: transparent;
   border: 0;
@@ -511,9 +494,9 @@ function formatDate(date) {
 }
 
 .toc-item.sub {
-  padding-left: 17px;
-  font-size: 10px;
-  color: #8b9eb1;
+  padding-left: 18px;
+  font-size: 12.5px;
+  color: var(--muted-2);
 }
 
 .toc-item:hover {
@@ -531,7 +514,7 @@ function formatDate(date) {
   top: 6px;
   bottom: 6px;
   width: 2px;
-  background: #2f9bff;
+  background: #0b63bd;
 }
 
 .info-row {
@@ -539,62 +522,59 @@ function formatDate(date) {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 5px 0;
-  font-size: 9.5px;
+  padding: 6px 0;
+  font-size: 12.5px;
 }
 
 .info-row span {
-  color: #93a5b8;
+  color: var(--muted);
 }
 
 .info-row b {
   font-weight: 500;
   color: #40566d;
+  text-align: right;
 }
 
 .info-row:last-child b {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
 }
 
 .help-card {
-  background:
-    linear-gradient(140deg, rgba(255, 122, 26, 0.05), transparent 60%),
-    #fffdf9;
+  background: #fffdf9;
   border-color: #f0e1d2;
 }
 
 .help-icon {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: fit-content;
   margin-bottom: 9px;
-  color: #d27a2c;
-  background: #fff4e9;
-  border: 1px solid #ffe1c8;
-  border-radius: 3px;
+  color: #b45309;
 }
 
 .help-card b {
   display: block;
-  font-size: 11.5px;
-  color: #8a4b18;
+  font-size: 14px;
+  color: #7a3f10;
 }
 
 .help-card p {
   margin: 6px 0 10px;
-  font-size: 9.5px;
-  line-height: 1.65;
-  color: #9a7d64;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: #5f4a37;
 }
 
 .help-card a {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 9.5px;
-  color: #b65a12;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #a34b0a;
   text-decoration: none;
 }
 
@@ -608,7 +588,7 @@ function formatDate(date) {
   justify-content: space-between;
   gap: 18px;
   margin-top: 34px;
-  padding: 16px 18px;
+  padding: 17px 18px;
   background: #f8fbfe;
   border: 1px solid #e1ebf4;
   border-radius: 3px;
@@ -616,15 +596,15 @@ function formatDate(date) {
 
 .feedback-box strong {
   display: block;
-  font-size: 12.5px;
+  font-size: 14px;
   color: #2c4a68;
 }
 
 .feedback-box > div > span {
   display: block;
   margin-top: 3px;
-  font-size: 9.5px;
-  color: #93a5b8;
+  font-size: 12.5px;
+  color: var(--muted);
 }
 
 .feedback-actions {
@@ -637,10 +617,10 @@ function formatDate(date) {
   display: flex;
   align-items: center;
   gap: 5px;
-  height: 30px;
-  padding: 0 10px;
-  font-size: 10.5px;
-  color: #5f7893;
+  height: 34px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: var(--muted-2);
   background: #fff;
   border: 1px solid #dce6f1;
   border-radius: 3px;
@@ -669,7 +649,7 @@ function formatDate(date) {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding: 13px 15px;
+  padding: 14px 16px;
   text-decoration: none;
   border: 1px solid #e1e9f2;
   border-radius: 3px;
@@ -689,22 +669,20 @@ function formatDate(date) {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  letter-spacing: 0.08em;
-  color: #8ba0b5;
+  font-size: 12px;
+  color: var(--muted);
 }
 
 .pager-title {
-  font-size: 11.5px;
+  font-size: 14px;
   font-weight: 600;
-  color: #344d68;
+  color: var(--ink-soft);
 }
 
 .pager-empty {
-  padding: 13px 2px;
-  font-size: 9.5px;
-  color: #a3b3c4;
+  padding: 14px 2px;
+  font-size: 12.5px;
+  color: var(--muted-2);
 }
 
 .pager-empty.right {
@@ -725,8 +703,8 @@ function formatDate(date) {
 .related-card {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 17px 17px 15px;
+  gap: 7px;
+  padding: 18px 18px 16px;
   text-decoration: none;
   background: #fff;
   border: 1px solid #dce6f1;
@@ -740,24 +718,23 @@ function formatDate(date) {
 }
 
 .related-cat {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.08em;
-  color: #2f9bff;
+  font-size: 11.5px;
+  color: #0b63bd;
 }
 
 .related-card h3 {
-  font-size: 12.5px;
+  font-size: 15.5px;
   font-weight: 700;
   color: #223a53;
+  line-height: 1.45;
 }
 
 .related-card p {
   display: -webkit-box;
   overflow: hidden;
-  font-size: 10.5px;
-  line-height: 1.6;
-  color: #7a8ea3;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--muted);
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
@@ -765,9 +742,9 @@ function formatDate(date) {
 .related-meta {
   margin-top: auto;
   padding-top: 7px;
-  font-family: var(--font-mono);
-  font-size: 8px;
-  color: #a3b3c4;
+  font-size: 12px;
+  color: var(--muted-2);
+  font-variant-numeric: tabular-nums;
 }
 
 .article-missing {
@@ -776,16 +753,17 @@ function formatDate(date) {
 }
 
 .article-missing h1 {
-  margin: 10px 0;
-  font-size: 30px;
+  margin: 0 0 10px;
+  font-size: 32px;
 }
 
 .article-missing p {
   margin-bottom: 20px;
-  color: #6f849a;
+  font-size: 15px;
+  color: var(--muted);
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 980px) {
   .article-layout {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -797,7 +775,7 @@ function formatDate(date) {
     margin-bottom: 4px;
   }
   .toc-card {
-    max-height: 220px;
+    max-height: 230px;
     overflow-y: auto;
   }
   .help-card {
@@ -810,7 +788,7 @@ function formatDate(date) {
     padding: 22px 20px 20px;
   }
   .article-head h1 {
-    font-size: 25px;
+    font-size: 26px;
   }
   .article-meta {
     gap: 11px;

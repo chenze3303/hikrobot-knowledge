@@ -17,7 +17,7 @@ defineProps({
       <RouterLink v-if="item.to && index !== items.length - 1" :to="item.to" class="crumb">
         {{ item.label }}
       </RouterLink>
-      <span v-else class="crumb current">{{ item.label }}</span>
+      <span v-else class="crumb current" aria-current="page">{{ item.label }}</span>
     </template>
   </nav>
 </template>
@@ -28,15 +28,15 @@ defineProps({
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
-  color: #8296ab;
+  font-size: 12.5px;
+  color: var(--muted);
 }
 
 .crumb {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #72879d;
+  color: var(--muted-2);
   text-decoration: none;
 }
 
@@ -45,9 +45,7 @@ defineProps({
 }
 
 .crumb.home {
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 10px;
-  letter-spacing: 0.06em;
+  font-size: 12.5px;
 }
 
 .crumb.current {

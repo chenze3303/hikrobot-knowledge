@@ -29,7 +29,14 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
 <template>
   <header class="site-header">
     <div class="header-left">
-      <button class="menu-btn" type="button" aria-label="打开目录" @click="emit('toggle-nav')">
+      <button
+        class="menu-btn"
+        type="button"
+        :aria-label="navOpen ? '关闭目录' : '打开目录'"
+        :aria-expanded="navOpen"
+        aria-controls="side-nav"
+        @click="emit('toggle-nav')"
+      >
         <Icon :name="navOpen ? 'close' : 'menu'" :size="18" />
       </button>
 
@@ -43,9 +50,6 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
           <small>读码器知识中心</small>
         </span>
       </RouterLink>
-
-      <span class="header-divider" aria-hidden="true" />
-      <span class="header-meta">KNOWLEDGE&nbsp;CENTER</span>
     </div>
 
     <nav class="header-nav" aria-label="主导航">
@@ -55,6 +59,7 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
         :to="link.to"
         class="nav-link"
         :class="{ active: isActive(link) }"
+        :aria-current="isActive(link) ? 'page' : undefined"
       >
         {{ link.label }}
       </RouterLink>
@@ -75,7 +80,7 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
       >
         <Icon name="download" :size="18" />
       </a>
-      <span class="sample-pill">SAMPLE</span>
+      <span class="sample-pill">示例库</span>
     </div>
   </header>
 </template>
@@ -208,23 +213,9 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
 
 .brand-text small {
   margin-top: 3px;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  color: #86a4c7;
-}
-
-.header-divider {
-  width: 1px;
-  height: 22px;
-  background: rgba(137, 176, 219, 0.28);
-}
-
-.header-meta {
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: #5f7c9d;
-  white-space: nowrap;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  color: #a7bdd4;
 }
 
 .header-nav {
@@ -235,8 +226,8 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
 .nav-link {
   position: relative;
   padding: 9px 13px;
-  font-size: 13px;
-  color: #a8bfd8;
+  font-size: 13.5px;
+  color: #b4c8de;
   text-decoration: none;
   border-radius: 3px;
   transition: color 0.18s ease, background 0.18s ease;
@@ -270,9 +261,9 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
   display: flex;
   align-items: center;
   gap: 9px;
-  height: 34px;
+  height: 36px;
   padding: 0 10px 0 12px;
-  color: #a8bfd8;
+  color: #b4c8de;
   background: rgba(255, 255, 255, 0.055);
   border: 1px solid rgba(146, 186, 228, 0.24);
   border-radius: 4px;
@@ -286,15 +277,15 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
 }
 
 .search-trigger span {
-  font-size: 12px;
+  font-size: 13.5px;
 }
 
 .search-trigger kbd {
-  padding: 2px 5px;
+  padding: 2px 6px;
   font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 9px;
-  color: #7e9bb9;
-  border: 1px solid rgba(146, 186, 228, 0.25);
+  font-size: 11px;
+  color: #a7bdd4;
+  border: 1px solid rgba(146, 186, 228, 0.3);
   border-radius: 3px;
 }
 
@@ -315,31 +306,20 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
 }
 
 .sample-pill {
-  padding: 3px 7px;
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 8px;
-  letter-spacing: 0.14em;
-  color: #ffb37a;
-  background: rgba(255, 122, 26, 0.1);
-  border: 1px solid rgba(255, 122, 26, 0.32);
+  padding: 4px 9px;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: #ffc9a3;
+  background: rgba(255, 122, 26, 0.12);
+  border: 1px solid rgba(255, 122, 26, 0.4);
   border-radius: 2px;
 }
 
-@media (max-width: 1080px) {
-  .header-meta,
-  .header-divider {
-    display: none;
-  }
-  .header-nav {
-    gap: 0;
-  }
-  .nav-link {
-    padding: 9px 9px;
-    font-size: 12px;
-  }
+.site-header :focus-visible {
+  outline-color: #7cc4ff;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .site-header {
     padding: 0 14px;
     gap: 12px;
@@ -356,12 +336,13 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
     display: none;
   }
   .search-trigger {
-    width: 34px;
+    width: 36px;
+    height: 36px;
     padding: 0;
     justify-content: center;
   }
   .brand-text small {
-    letter-spacing: 0.14em;
+    letter-spacing: 0.08em;
   }
 }
 </style>
