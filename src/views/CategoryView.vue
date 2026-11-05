@@ -80,11 +80,7 @@ watch(
             <span class="tag blue">{{ article.level }}</span>
           </div>
         </div>
-        <div class="doc-meta">
-          <span><Icon name="clock" :size="12" /> {{ article.readTime }} 分钟</span>
-          <span class="doc-date">{{ article.updated }}</span>
-          <span class="doc-arrow"><Icon name="arrowRight" :size="14" /></span>
-        </div>
+        <span class="doc-arrow"><Icon name="arrowRight" :size="15" /></span>
       </RouterLink>
     </div>
 
@@ -257,7 +253,7 @@ watch(
 
 .doc-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 18px;
   padding: 20px 14px;
   text-decoration: none;
@@ -302,30 +298,6 @@ watch(
   flex-wrap: wrap;
   gap: 5px;
   margin-top: 10px;
-}
-
-.doc-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  width: 108px;
-  padding-top: 3px;
-  flex: none;
-}
-
-.doc-meta > span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.doc-date {
-  font-family: var(--font-mono);
-  font-size: 11.5px !important;
 }
 
 .doc-arrow {
@@ -456,12 +428,9 @@ watch(
   .doc-main h2 {
     font-size: 16px;
   }
-  .doc-meta {
-    width: 58px;
-  }
-  .doc-date,
-  .doc-meta > span:first-child {
-    display: none;
+  .doc-arrow {
+    width: 24px;
+    height: 24px;
   }
   .cat-pager {
     grid-template-columns: 1fr;

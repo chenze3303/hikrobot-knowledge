@@ -161,10 +161,6 @@ async function copyLink() {
   }
 }
 
-function formatDate(date) {
-  return date.replaceAll('-', '.')
-}
-
 function restoreAfterPrint(images, title) {
   document.title = title
   images.forEach((img) => {
@@ -223,29 +219,25 @@ async function exportPdf() {
           </RouterLink>
           <span class="head-level">{{ article.level }}</span>
           <span class="head-note">示例文档</span>
+          <div class="head-actions">
+            <button type="button" class="meta-action" @click="copyLink">
+              <Icon :name="copied ? 'check' : 'copy'" :size="12" />
+              {{ copied ? '链接已复制' : '复制链接' }}
+            </button>
+            <button
+              type="button"
+              class="pdf-action"
+              title="打开打印窗口：目标选「另存为 PDF」，并关闭「页眉和页脚」"
+              @click="exportPdf"
+            >
+              <Icon name="download" :size="13" />
+              下载 PDF
+            </button>
+          </div>
         </div>
 
         <h1>{{ article.title }}</h1>
         <p class="article-summary">{{ article.summary }}</p>
-
-        <div class="article-meta">
-          <span><Icon name="clock" :size="13" /> 约 {{ article.readTime }} 分钟</span>
-          <span><Icon name="book" :size="13" /> {{ article.category.short }}文档</span>
-          <span class="meta-date">更新于 {{ formatDate(article.updated) }}</span>
-          <button type="button" class="meta-action" @click="copyLink">
-            <Icon :name="copied ? 'check' : 'copy'" :size="12" />
-            {{ copied ? '链接已复制' : '复制链接' }}
-          </button>
-          <button
-            type="button"
-            class="pdf-action"
-            title="打开打印窗口：目标选「另存为 PDF」，并关闭「页眉和页脚」"
-            @click="exportPdf"
-          >
-            <Icon name="download" :size="13" />
-            下载 PDF
-          </button>
-        </div>
 
         <div class="article-tags">
           <span v-for="tag in article.tags" :key="tag" class="tag">{{ tag }}</span>
@@ -257,8 +249,7 @@ async function exportPdf() {
           <div ref="contentRef" class="prose" v-html="html" />
 
           <p class="print-source">
-            {{ article.title }} · {{ article.category.title }} · 更新于
-            {{ formatDate(article.updated) }} · {{ articleUrl }}
+            {{ article.title }} · {{ article.category.title }} · {{ articleUrl }}
             <br />
             本文来自「海康机器人读码器知识中心」示例知识库，型号参数与操作步骤请以海康机器人官方最新资料为准。
           </p>
@@ -325,8 +316,6 @@ async function exportPdf() {
             </div>
             <div class="info-row"><span>栏目</span><b>{{ article.category.title }}</b></div>
             <div class="info-row"><span>难度</span><b>{{ article.level }}</b></div>
-            <div class="info-row"><span>阅读</span><b>{{ article.readTime }} 分钟</b></div>
-            <div class="info-row"><span>更新</span><b>{{ article.updated }}</b></div>
           </div>
 
           <div class="rail-card help-card">
@@ -354,7 +343,6 @@ async function exportPdf() {
             <span class="related-cat">{{ item.category.title }}</span>
             <h3>{{ item.title }}</h3>
             <p>{{ item.summary }}</p>
-            <span class="related-meta">{{ item.readTime }} 分钟 · {{ item.updated }}</span>
           </RouterLink>
         </div>
       </section>
@@ -450,30 +438,6 @@ async function exportPdf() {
   color: var(--muted);
 }
 
-.article-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 17px;
-  margin-top: 19px;
-  padding-top: 15px;
-  font-size: 13px;
-  color: var(--muted);
-  border-top: 1px dashed #e1e9f2;
-}
-
-.article-meta > span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.meta-date {
-  font-family: var(--font-mono);
-  font-size: 12px !important;
-  font-variant-numeric: tabular-nums;
-}
-
 .meta-action {
   display: flex;
   align-items: center;
@@ -485,11 +449,18 @@ async function exportPdf() {
   cursor: pointer;
 }
 
+.head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
 .pdf-action {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  margin-left: auto;
   padding: 5px 10px;
   font-size: 12.5px;
   font-weight: 600;
@@ -517,6 +488,7 @@ async function exportPdf() {
 
 .article-tags {
   display: flex;
+  margin-top: 16px;
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 13px;
@@ -826,14 +798,6 @@ async function exportPdf() {
   color: var(--muted);
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-}
-
-.related-meta {
-  margin-top: auto;
-  padding-top: 7px;
-  font-size: 12px;
-  color: var(--muted-2);
-  font-variant-numeric: tabular-nums;
 }
 
 .article-missing {

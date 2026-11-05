@@ -121,10 +121,9 @@ function openSearch(word = '') {
           </div>
           <div class="recent-list">
             <RouterLink v-for="article in recentArticles" :key="article.slug" :to="`/article/${article.slug}`" class="recent-item">
-              <span class="recent-date">{{ article.updated.slice(5) }}</span>
               <span class="recent-main">
                 <span class="recent-title">{{ article.title }}</span>
-                <span class="recent-meta">{{ article.category?.title }} · {{ article.readTime }} 分钟</span>
+                <span class="recent-meta">{{ article.category?.title }}</span>
               </span>
               <Icon name="arrowRight" :size="13" class="recent-arrow" />
             </RouterLink>
@@ -581,15 +580,6 @@ function openSearch(word = '') {
 
 .recent-item:hover {
   background: #f8fbfe;
-}
-
-.recent-date {
-  width: 44px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted-2);
-  flex: none;
-  font-variant-numeric: tabular-nums;
 }
 
 .recent-main {
