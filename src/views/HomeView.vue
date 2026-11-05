@@ -12,30 +12,6 @@ const categoryCards = computed(() =>
   }))
 )
 
-const quickPaths = [
-  {
-    title: '我要选型',
-    desc: '按码制、工作距离和节拍，先锁定系列与型号。',
-    icon: 'layers',
-    to: '/category/selection',
-    label: '进入选型'
-  },
-  {
-    title: '我在现场调试',
-    desc: '从安装、对焦、曝光到触发，把第一张图读出来。',
-    icon: 'target',
-    to: '/category/software',
-    label: '开始调试'
-  },
-  {
-    title: '我要对接产线',
-    desc: 'TCP、串口、PLC 或 SDK，把结果稳定送进系统。',
-    icon: 'network',
-    to: '/category/integration',
-    label: '查看集成'
-  }
-]
-
 const hotDocs = [
   { title: '读不到码：10 步排查', slug: 'no-read', tag: '排障' },
   { title: 'TCP / UDP 触发与结果输出', slug: 'tcp-trigger', tag: '调试' },
@@ -110,18 +86,6 @@ function openSearch(word = '') {
     </section>
 
     <div class="page-wrap home-body">
-      <section class="quick-paths" aria-labelledby="quick-paths-title">
-        <h2 id="quick-paths-title" class="sr-only">快速入口</h2>
-        <RouterLink v-for="path in quickPaths" :key="path.title" :to="path.to" class="quick-card">
-          <div class="quick-head">
-            <span class="quick-icon"><Icon :name="path.icon" :size="20" /></span>
-            <h3>{{ path.title }}</h3>
-          </div>
-          <p>{{ path.desc }}</p>
-          <span class="quick-link">{{ path.label }} <Icon name="arrowRight" :size="13" /></span>
-        </RouterLink>
-      </section>
-
       <section class="category-section">
         <div class="section-head">
           <div>
@@ -145,28 +109,6 @@ function openSearch(word = '') {
               <span class="card-arrow"><Icon name="arrowRight" :size="13" /></span>
             </div>
           </RouterLink>
-        </div>
-      </section>
-
-      <section class="product-strip">
-        <div class="product-copy">
-          <h2>ID2000 系列：紧凑型工业读码器</h2>
-          <p>
-            小体积、嵌入式安装，适合自动化机台与狭小工位。先确认工作距离和视野，再用曝光、增益与码制参数把稳定性拉满。
-          </p>
-          <div class="product-actions">
-            <RouterLink to="/article/id2000-series" class="btn btn-primary">
-              查看快速上手 <Icon name="arrowRight" :size="13" />
-            </RouterLink>
-            <RouterLink to="/category/selection" class="btn btn-ghost">对比其他系列</RouterLink>
-          </div>
-        </div>
-        <div class="product-specs">
-          <div><span>分辨率</span><strong>1920 × 1080</strong></div>
-          <div><span>镜头</span><strong>5 mm</strong></div>
-          <div><span>读码速度</span><strong>80 码 / 秒</strong></div>
-          <div><span>帧率</span><strong>50 fps</strong></div>
-          <p class="specs-note">以上为系列示例参数，选型请以官方规格书为准。</p>
         </div>
       </section>
 
@@ -516,89 +458,8 @@ function openSearch(word = '') {
 
 /* ---------- body ---------- */
 .home-body {
-  padding-top: 36px;
+  padding-top: 54px;
   padding-bottom: 20px;
-}
-
-.quick-paths {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: -66px;
-  margin-bottom: 46px;
-  position: relative;
-  z-index: 5;
-}
-
-.quick-card {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-  padding: 22px 22px 19px;
-  text-decoration: none;
-  background: #fff;
-  border: 1px solid #dce6f1;
-  border-top: 2px solid #2f9bff;
-  border-radius: 3px;
-  box-shadow: var(--shadow-md);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.quick-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 36px rgba(15, 40, 70, 0.13);
-}
-
-.quick-card:nth-child(2) {
-  border-top-color: #ff7a1a;
-}
-
-.quick-card:nth-child(3) {
-  border-top-color: #16a37a;
-}
-
-.quick-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.quick-icon {
-  display: grid;
-  place-items: center;
-  color: #0b63bd;
-  flex: none;
-}
-
-.quick-card:nth-child(2) .quick-icon {
-  color: #b45309;
-}
-
-.quick-card:nth-child(3) .quick-icon {
-  color: #0f7a5c;
-}
-
-.quick-card h3 {
-  font-size: 16.5px;
-  font-weight: 700;
-  color: #142a42;
-}
-
-.quick-card p {
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--muted);
-}
-
-.quick-link {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: auto;
-  padding-top: 4px;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--muted-2);
 }
 
 /* ---------- category grid ---------- */
@@ -694,79 +555,6 @@ function openSearch(word = '') {
   color: #fff;
   background: #0b63bd;
   border-color: #0b63bd;
-}
-
-/* ---------- product strip ---------- */
-.product-strip {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 40px;
-  margin-bottom: 50px;
-  padding: 34px 38px;
-  background: #fff;
-  border: 1px solid #dce6f1;
-  border-top: 3px solid #ff7a1a;
-  border-radius: 0;
-}
-
-.product-copy h2 {
-  margin: 0 0 10px;
-  font-size: 22px;
-  font-weight: 700;
-  color: #122238;
-}
-
-.product-copy p {
-  max-width: 480px;
-  font-size: 14.5px;
-  line-height: 1.8;
-  color: var(--muted);
-}
-
-.product-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.product-specs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  align-self: center;
-  background: #dfe8f2;
-  border: 1px solid #dfe8f2;
-}
-
-.product-specs div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 13px 14px;
-  background: #fbfdff;
-}
-
-.product-specs span {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.product-specs strong {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 600;
-  color: #1b3a57;
-  font-variant-numeric: tabular-nums;
-}
-
-.specs-note {
-  grid-column: 1 / -1;
-  padding: 10px 14px;
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--muted);
-  background: #f8fbfe;
 }
 
 /* ---------- docs ---------- */
@@ -975,17 +763,11 @@ function openSearch(word = '') {
   .hero-stats {
     gap: 26px;
   }
-  .quick-paths {
-    grid-template-columns: 1fr;
-    margin-top: -38px;
+  .home-body {
+    padding-top: 38px;
   }
   .category-grid {
     grid-template-columns: 1fr 1fr;
-  }
-  .product-strip {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 26px 22px;
   }
   .support-banner {
     flex-direction: column;
