@@ -20,6 +20,11 @@ const copied = ref(false)
 
 const article = computed(() => getArticle(route.params.slug))
 const html = computed(() => (article.value ? marked.parse(article.value.body) : ''))
+const articleUrl = computed(() =>
+  article.value
+    ? `${window.location.origin}${window.location.pathname}#/article/${article.value.slug}`
+    : ''
+)
 const adjacent = computed(() => (article.value ? getAdjacentArticles(article.value) : { prev: null, next: null }))
 const related = computed(() => (article.value ? getRelatedArticles(article.value) : []))
 
@@ -52,6 +57,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', onScroll)
   window.removeEventListener('resize', updateProgress)
+  window.removeEventListener('afterprint', handleAfterPrint)
 })
 
 function processContent() {
@@ -87,7 +93,12 @@ function processContent() {
   })
 
   root.querySelectorAll('img').forEach((img) => {
+    const src = img.getAttribute('src') || ''
+    if (src.startsWith('/') && !src.startsWith('//')) {
+      img.src = `${import.meta.env.BASE_URL}${src.slice(1)}`
+    }
     img.loading = 'lazy'
+    img.decoding = 'async'
   })
 
   const headings = [...root.querySelectorAll('h2, h3')]
@@ -153,6 +164,43 @@ async function copyLink() {
 function formatDate(date) {
   return date.replaceAll('-', '.')
 }
+
+function restoreAfterPrint(images, title) {
+  document.title = title
+  images.forEach((img) => {
+    img.loading = 'lazy'
+  })
+  window.removeEventListener('afterprint', handleAfterPrint)
+}
+
+let pendingPrint = null
+
+function handleAfterPrint() {
+  if (!pendingPrint) return
+  restoreAfterPrint(pendingPrint.images, pendingPrint.title)
+  pendingPrint = null
+}
+
+async function exportPdf() {
+  if (!article.value) return
+  const root = contentRef.value
+  const images = root ? [...root.querySelectorAll('img')] : []
+
+  // 打印预览不会等待视口外的懒加载图片，先把它们强制加载完
+  images.forEach((img) => {
+    img.loading = 'eager'
+  })
+  await Promise.all(
+    images.map((img) => (typeof img.decode === 'function' ? img.decode().catch(() => {}) : Promise.resolve()))
+  )
+
+  const originalTitle = document.title
+  document.title = article.value.title
+  pendingPrint = { images, title: originalTitle }
+  window.removeEventListener('afterprint', handleAfterPrint)
+  window.addEventListener('afterprint', handleAfterPrint)
+  window.print()
+}
 </script>
 
 <template>
@@ -188,6 +236,15 @@ function formatDate(date) {
             <Icon :name="copied ? 'check' : 'copy'" :size="12" />
             {{ copied ? '链接已复制' : '复制链接' }}
           </button>
+          <button
+            type="button"
+            class="pdf-action"
+            title="打开打印窗口：目标选「另存为 PDF」，并关闭「页眉和页脚」"
+            @click="exportPdf"
+          >
+            <Icon name="download" :size="13" />
+            下载 PDF
+          </button>
         </div>
 
         <div class="article-tags">
@@ -198,6 +255,13 @@ function formatDate(date) {
       <div class="article-layout">
         <div class="article-doc">
           <div ref="contentRef" class="prose" v-html="html" />
+
+          <p class="print-source">
+            {{ article.title }} · {{ article.category.title }} · 更新于
+            {{ formatDate(article.updated) }} · {{ articleUrl }}
+            <br />
+            本文来自「海康机器人读码器知识中心」示例知识库，型号参数与操作步骤请以海康机器人官方最新资料为准。
+          </p>
 
           <div class="feedback-box">
             <div>
@@ -414,12 +478,37 @@ function formatDate(date) {
   display: flex;
   align-items: center;
   gap: 5px;
-  margin-left: auto;
   font-size: 12.5px;
   color: var(--muted-2);
   background: transparent;
   border: 0;
   cursor: pointer;
+}
+
+.pdf-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  padding: 5px 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0b63bd;
+  background: #f2f8ff;
+  border: 1px solid #cfe3f8;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.pdf-action:hover {
+  background: #e5f2ff;
+  border-color: #9fcdf7;
+}
+
+.pdf-action:focus-visible {
+  outline: 2px solid #0b63bd;
+  outline-offset: 2px;
 }
 
 .meta-action:hover {
