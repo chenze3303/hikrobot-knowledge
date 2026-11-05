@@ -212,7 +212,7 @@ function openSearch(word = '') {
 
 .hero-lead {
   max-width: 540px;
-  font-size: 15.5px;
+  font-size: 16px;
   line-height: 1.85;
   color: #a7bdd4;
 }

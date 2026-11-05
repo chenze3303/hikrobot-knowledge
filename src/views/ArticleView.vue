@@ -381,8 +381,8 @@ function formatDate(date) {
 
 .article-summary {
   max-width: 800px;
-  font-size: 15px;
-  line-height: 1.8;
+  font-size: 16px;
+  line-height: 1.85;
   color: var(--muted);
 }
 
@@ -393,7 +393,7 @@ function formatDate(date) {
   gap: 17px;
   margin-top: 19px;
   padding-top: 15px;
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--muted);
   border-top: 1px dashed #e1e9f2;
 }
@@ -484,8 +484,8 @@ function formatDate(date) {
   gap: 7px;
   width: 100%;
   padding: 5px 0 5px 8px;
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: 13.5px;
+  line-height: 1.6;
   color: var(--muted);
   text-align: left;
   background: transparent;
@@ -495,7 +495,7 @@ function formatDate(date) {
 
 .toc-item.sub {
   padding-left: 18px;
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--muted-2);
 }
 

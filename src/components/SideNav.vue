@@ -185,7 +185,7 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 .side-search span {
   flex: 1;
   overflow: hidden;
-  font-size: 13.5px;
+  font-size: 14px;
   text-align: left;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -220,7 +220,7 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 }
 
 .group-label {
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--muted);
@@ -316,8 +316,8 @@ const groupCategories = (group) => categories.filter((category) => group.categor
   gap: 7px;
   align-items: flex-start;
   padding: 6px 8px;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 13.5px;
+  line-height: 1.55;
   color: var(--muted);
   text-decoration: none;
   border-radius: 3px;

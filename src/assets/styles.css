@@ -37,11 +37,10 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 15.5px;
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.72;
   color: var(--ink);
   background: var(--canvas);
-  -webkit-font-smoothing: antialiased;
 }
 
 body,
@@ -234,8 +233,9 @@ textarea {
 
 /* ---------- markdown ---------- */
 .prose {
-  font-size: 16px;
-  line-height: 1.85;
+  font-size: 17px;
+  line-height: 1.9;
+  letter-spacing: 0.01em;
   color: #2b3f56;
   word-break: break-word;
 }
@@ -245,7 +245,7 @@ textarea {
 }
 
 .prose p {
-  margin: 0 0 17px;
+  margin: 0 0 19px;
 }
 
 .prose h2,
@@ -257,34 +257,34 @@ textarea {
 }
 
 .prose h2 {
-  margin: 38px 0 14px;
-  padding-top: 14px;
-  font-size: 21px;
+  margin: 42px 0 15px;
+  padding-top: 15px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: 0.01em;
   border-top: 1px solid #e4ecf4;
 }
 
 .prose h3 {
-  margin: 28px 0 10px;
-  font-size: 17px;
+  margin: 30px 0 11px;
+  font-size: 18.5px;
   font-weight: 700;
 }
 
 .prose h4 {
-  margin: 22px 0 8px;
-  font-size: 15px;
+  margin: 24px 0 9px;
+  font-size: 16.5px;
   font-weight: 700;
 }
 
 .prose ul,
 .prose ol {
-  margin: 0 0 17px;
-  padding-left: 24px;
+  margin: 0 0 19px;
+  padding-left: 26px;
 }
 
 .prose li {
-  margin: 6px 0;
+  margin: 7px 0;
   padding-left: 2px;
 }
 
@@ -310,7 +310,7 @@ textarea {
 .prose code {
   padding: 1px 5px;
   font-family: var(--font-mono);
-  font-size: 13.5px;
+  font-size: 0.86em;
   color: #9a3d05;
   background: #fff7ed;
   border: 1px solid #ffe3c9;
@@ -319,11 +319,11 @@ textarea {
 
 .prose pre {
   position: relative;
-  margin: 20px 0;
+  margin: 22px 0;
   padding: 18px;
   overflow-x: auto;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 13.5px;
   line-height: 1.75;
   color: #d7e6f7;
   background: #0a1929;
@@ -385,15 +385,15 @@ textarea {
 
 .prose table {
   width: 100%;
-  margin: 20px 0;
-  font-size: 13.5px;
+  margin: 22px 0;
+  font-size: 14px;
   border-collapse: collapse;
   border: 1px solid #dbe6f2;
 }
 
 .prose th {
   padding: 10px 12px;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
   color: #28425f;
   text-align: left;
@@ -462,6 +462,13 @@ textarea {
 
 .route-fade-leave-to {
   opacity: 0;
+}
+
+@media (max-width: 760px) {
+  .prose {
+    font-size: 16px;
+    line-height: 1.86;
+  }
 }
 
 @media (max-width: 860px) {
