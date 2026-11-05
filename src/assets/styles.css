@@ -537,6 +537,7 @@ textarea {
     display: none !important;
   }
 
+  .app-shell,
   .app-body,
   .app-main,
   .page-wrap,
