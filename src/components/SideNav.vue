@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { categories, groups } from '../data/categories'
 import { getArticle, getCategoryArticles } from '../data/knowledge'
+import { getVideos, videoHref } from '../data/videos'
 import Icon from './Icon.vue'
 
 const props = defineProps({
@@ -47,7 +48,7 @@ function toggle(id) {
 }
 
 function countOf(id) {
-  return getCategoryArticles(id).length
+  return id === 'videos' ? getVideos().length : getCategoryArticles(id).length
 }
 
 const groupCategories = (group) => categories.filter((category) => group.categories.includes(category.id))
@@ -97,17 +98,34 @@ const groupCategories = (group) => categories.filter((category) => group.categor
           </div>
 
           <div v-if="isExpanded(category.id)" class="article-links">
-            <RouterLink
-              v-for="article in getCategoryArticles(category.id)"
-              :key="article.slug"
-              :to="`/article/${article.slug}`"
-              class="article-link"
-              :class="{ active: activeArticle === article.slug }"
-              :aria-current="activeArticle === article.slug ? 'page' : undefined"
-            >
-              <span class="article-dot" />
-              <span>{{ article.title }}</span>
-            </RouterLink>
+            <template v-if="category.id === 'videos'">
+              <a
+                v-for="video in getVideos()"
+                :key="video.id"
+                :href="videoHref(video)"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="article-link"
+                :title="`在新标签页播放：${video.title}`"
+              >
+                <span class="article-dot video-dot" />
+                <span>{{ video.title }}</span>
+                <Icon name="external" :size="10" class="video-external" />
+              </a>
+            </template>
+            <template v-else>
+              <RouterLink
+                v-for="article in getCategoryArticles(category.id)"
+                :key="article.slug"
+                :to="`/article/${article.slug}`"
+                class="article-link"
+                :class="{ active: activeArticle === article.slug }"
+                :aria-current="activeArticle === article.slug ? 'page' : undefined"
+              >
+                <span class="article-dot" />
+                <span>{{ article.title }}</span>
+              </RouterLink>
+            </template>
           </div>
         </div>
       </section>
@@ -345,6 +363,16 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 
 .article-link.active .article-dot {
   background: #0b63bd;
+}
+
+.video-dot {
+  background: #ff8a3d;
+}
+
+.video-external {
+  margin-top: 4px;
+  margin-left: auto;
+  color: var(--muted-2);
 }
 
 .tree-note {

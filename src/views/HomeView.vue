@@ -3,12 +3,16 @@ import { computed } from 'vue'
 import Icon from '../components/Icon.vue'
 import { categories } from '../data/categories'
 import { getCategoryArticles, recentArticles, stats } from '../data/knowledge'
+import { getVideos } from '../data/videos'
 import id2020 from '../assets/id2020.png'
+
+const videoCount = getVideos().length
 
 const categoryCards = computed(() =>
   categories.map((category) => ({
     ...category,
-    count: getCategoryArticles(category.id).length
+    count: category.id === 'videos' ? videoCount : getCategoryArticles(category.id).length,
+    unit: category.id === 'videos' ? '个视频' : '篇'
   }))
 )
 
@@ -90,7 +94,7 @@ function openSearch(word = '') {
         <div class="section-head">
           <div>
             <h2>按栏目查找</h2>
-            <p>八条主线，从产品到现场，再到系统集成。</p>
+            <p>九条主线，从产品到现场，再到集成与实操。</p>
           </div>
           <button class="section-link" type="button" @click="openSearch()">
             全文搜索 <Icon name="search" :size="12" />
@@ -105,7 +109,7 @@ function openSearch(word = '') {
             </div>
             <p>{{ category.description }}</p>
             <div class="card-foot">
-              <span class="card-count">{{ category.count }} 篇</span>
+              <span class="card-count">{{ category.count }} {{ category.unit }}</span>
               <span class="card-arrow"><Icon name="arrowRight" :size="13" /></span>
             </div>
           </RouterLink>
@@ -474,7 +478,7 @@ function openSearch(word = '') {
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
 
@@ -758,6 +762,9 @@ function openSearch(word = '') {
   }
   .category-grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .category-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
   .support-banner {
     flex-direction: column;

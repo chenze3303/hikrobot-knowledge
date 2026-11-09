@@ -28,8 +28,8 @@ export const groups = [
     id: 'support',
     index: '04',
     label: '运维与支持',
-    description: '排障、保养、固件与下载',
-    categories: ['troubleshooting', 'maintenance']
+    description: '排障、保养、视频与下载',
+    categories: ['troubleshooting', 'maintenance', 'videos']
   }
 ]
 
@@ -113,6 +113,16 @@ export const categories = [
     tagline: '把设备寿命和资料一起管好',
     description: '日常清洁、镜头保养、固件与文档下载、保修维修流程，以及读码器常用术语。',
     keywords: ['清洁', '保养', '固件', '下载', '保修', '术语']
+  },
+  {
+    id: 'videos',
+    title: '视频教程',
+    short: '视频',
+    icon: 'play',
+    group: 'support',
+    tagline: '看得见的操作步骤',
+    description: '按设备与场景组织的短视频演示：连接、调参、触发、通讯与排障，点击封面即可在新标签页观看。',
+    keywords: ['视频', '演示', '操作', 'IDMVS', '接线']
   }
 ]
 

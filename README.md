@@ -8,9 +8,10 @@
 
 ## 功能
 
-- **首页**：产品主视觉、8 个栏目入口、最近更新与高频问题
+- **首页**：产品主视觉、9 个栏目入口、最近更新与高频问题
 - **栏目页**：栏目说明、关键词、栏目内筛选、文档列表
 - **文章页**：Markdown 正文与图片、自动目录、阅读进度、代码复制、一键导出 PDF、反馈、上下篇、相关文档
+- **视频教程**：封面墙、悬停放大与播放脉冲、点击新标签页观看；视频文件可托管在仓库或外部平台
 - **全局搜索**：标题/标签/摘要/正文全文检索，支持 `⌘K`、`/`、方向键与回车
 - **响应式**：桌面侧边栏常驻，移动端抽屉式目录
 - **部署**：Vite 构建，`base: './'` + Hash 路由，适配 GitHub Pages 子路径
@@ -52,6 +53,8 @@ src/
   assets/styles.css       # 全局样式与 Markdown 排版
 public/
   products/               # 产品图
+  images/videos/          # 视频封面
+  videos/                 # 视频文件
   favicon.svg
 ```
 
@@ -98,6 +101,32 @@ featured: true
 - 建议宽度不超过 1600px，导出 PDF 时会按页面宽度自动缩放，单张高度上限约 190mm。
 - 图片会自动加上边框、懒加载与 `alt`，并避免跨页被切断。
 - 用 `/images/xxx.png` 这种以斜杠开头的写法也可以，构建后会自动补上仓库子路径前缀。
+
+### 添加视频
+
+视频文件放在 `public/videos/`，封面放在 `public/images/videos/`，再在 `src/data/videos.js` 里追加一条记录：
+
+```js
+{
+  id: 'idmvs-read-demo',
+  title: '固定式读码器读码全流程演示',
+  summary: '一句话说明视频内容。',
+  cover: 'images/videos/idmvs-read-demo.jpg',
+  src: 'videos/idmvs-read-demo.mp4',
+  link: '',                 // 外部平台地址，填了优先使用
+  duration: '00:10',
+  level: '入门',
+  tags: ['IDMVS', '读码'],
+  updated: '2026-11-09',
+  order: 1
+}
+```
+
+- `src` 填相对 `public/` 的路径即可，构建后自动补仓库子路径；视频会随 GitHub Pages 一起发布。
+- 如果视频放在 B 站、YouTube 等平台，把 `link` 填成对应地址，`src` 可以留空。
+- 封面建议 16:9（如 1280×720），点击卡片会在新标签页打开原生播放器。
+- 视频会自动出现在侧栏目录和全局搜索中；`order` 控制栏目内排序。
+- GitHub 单文件建议小于 50MB（超过 100MB 会被拒绝），大文件优先使用外部平台。
 
 ### 导出 PDF
 

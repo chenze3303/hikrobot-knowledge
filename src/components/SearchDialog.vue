@@ -3,6 +3,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { categories, hotSearches } from '../data/categories'
 import { searchArticles, recentArticles } from '../data/knowledge'
+import { searchVideos, videoHref } from '../data/videos'
 import Icon from './Icon.vue'
 
 const props = defineProps({
@@ -18,7 +19,13 @@ const activeIndex = ref(0)
 const lastActive = ref(null)
 const router = useRouter()
 
-const results = computed(() => searchArticles(query.value).slice(0, 12))
+const results = computed(() => {
+  const word = query.value.trim()
+  if (!word) return []
+  return [...searchVideos(word), ...searchArticles(word)]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 12)
+})
 const showEmpty = computed(() => query.value.trim() && results.value.length === 0)
 const suggestions = computed(() => recentArticles.slice(0, 5))
 
@@ -46,9 +53,13 @@ function close() {
   emit('update:open', false)
 }
 
-function pick(article) {
+function pick(item) {
   close()
-  router.push(`/article/${article.slug}`)
+  if (item.kind === 'video') {
+    window.open(videoHref(item), '_blank', 'noopener,noreferrer')
+    return
+  }
+  router.push(`/article/${item.slug}`)
 }
 
 function setHot(word) {
@@ -154,13 +165,13 @@ function highlight(text) {
 
             <div v-else-if="showEmpty" class="search-empty">
               <Icon name="search" :size="26" />
-              <p>没有找到与「{{ query }}」相关的文档</p>
-              <span>试试型号前缀（如 ID2000）、故障现象或协议名称。</span>
+              <p>没有找到与「{{ query }}」相关的文档或视频</p>
+              <span>试试型号前缀（如 ID2000）、故障现象、协议名称或视频主题。</span>
             </div>
 
             <div v-else class="search-results">
               <div class="search-section-label" aria-live="polite">
-                找到 {{ results.length }} 篇文档
+                找到 {{ results.length }} 条结果
                 <span>使用 ↑ ↓ 选择，Enter 打开</span>
               </div>
               <button
