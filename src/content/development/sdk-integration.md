@@ -4,7 +4,7 @@ summary: "需要自定义触发、结果处理和图像保存时，用 SDK。本
 tags: [SDK, 二次开发, 集成, API]
 level: 进阶
 updated: 2026-10-20
-order: 4
+order: 1
 ---
 
 # SDK 二次开发入门

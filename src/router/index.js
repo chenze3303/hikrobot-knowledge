@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
+  { path: '/category/integration', redirect: '/category/communication' },
   {
     path: '/category/:categoryId',
     name: 'category',

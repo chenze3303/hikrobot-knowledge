@@ -19,7 +19,8 @@ import Icon from './Icon.vue'
         <RouterLink to="/category/selection">产品与选型</RouterLink>
         <RouterLink to="/category/installation">安装与光学</RouterLink>
         <RouterLink to="/category/software">调试与软件</RouterLink>
-        <RouterLink to="/category/integration">通讯与集成</RouterLink>
+        <RouterLink to="/category/communication">通讯与协议</RouterLink>
+        <RouterLink to="/category/development">二次开发</RouterLink>
         <RouterLink to="/category/troubleshooting">故障排查</RouterLink>
       </div>
 

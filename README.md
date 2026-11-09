@@ -8,7 +8,7 @@
 
 ## 功能
 
-- **首页**：产品主视觉、7 个栏目入口、最近更新与高频问题
+- **首页**：产品主视觉、8 个栏目入口、最近更新与高频问题
 - **栏目页**：栏目说明、关键词、栏目内筛选、文档列表
 - **文章页**：Markdown 正文与图片、自动目录、阅读进度、代码复制、一键导出 PDF、反馈、上下篇、相关文档
 - **全局搜索**：标题/标签/摘要/正文全文检索，支持 `⌘K`、`/`、方向键与回车
@@ -40,7 +40,8 @@ src/
     applications/
     installation/
     software/
-    integration/
+    communication/
+    development/
     troubleshooting/
     maintenance/
   data/

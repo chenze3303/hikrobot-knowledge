@@ -20,9 +20,9 @@ export const groups = [
   {
     id: 'integration',
     index: '03',
-    label: '通讯与集成',
-    description: '协议、PLC、SDK 与产线对接',
-    categories: ['integration']
+    label: '系统集成',
+    description: '通讯协议与二次开发',
+    categories: ['communication', 'development']
   },
   {
     id: 'support',
@@ -75,14 +75,24 @@ export const categories = [
     keywords: ['IDMVS', '曝光', '增益', '触发', '固件', 'FTP']
   },
   {
-    id: 'integration',
-    title: '通讯与集成',
-    short: '集成',
+    id: 'communication',
+    title: '通讯与协议',
+    short: '通讯',
     icon: 'network',
     group: 'integration',
-    tagline: '让读码结果进入业务系统',
-    description: 'TCP/IP、串口、PLC 与 Proﬁnet/EtherNet/IP，以及 SDK 二次开发和输出格式约定。',
-    keywords: ['TCP', '串口', 'PLC', 'Profinet', 'EtherNet/IP', 'SDK']
+    tagline: '让读码结果稳定送达',
+    description: 'TCP/IP、RS232/485、PLC 与 Profinet / EtherNet/IP，以及输出报文、分隔符与多码拼接的约定。',
+    keywords: ['TCP', '串口', 'PLC', 'Profinet', 'EtherNet/IP', '输出格式']
+  },
+  {
+    id: 'development',
+    title: '二次开发',
+    short: '开发',
+    icon: 'code',
+    group: 'integration',
+    tagline: '把读码能力写进业务系统',
+    description: '用 SDK 自定义触发、取流、结果回调与图像保存，把读码能力嵌进 MES、WMS 或自有上位机。',
+    keywords: ['SDK', '二次开发', 'API', '取流', '回调', '集成']
   },
   {
     id: 'troubleshooting',
@@ -108,4 +118,4 @@ export const categories = [
 
 export const categoryMap = Object.fromEntries(categories.map((item) => [item.id, item]))
 
-export const hotSearches = ['触发方式', '读不到码', 'TCP 通讯', 'IDMVS', 'DPM', '工作距离']
+export const hotSearches = ['触发方式', '读不到码', 'TCP 通讯', 'SDK', 'IDMVS', 'DPM', '工作距离']

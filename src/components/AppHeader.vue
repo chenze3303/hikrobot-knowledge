@@ -13,7 +13,8 @@ const route = useRoute()
 const links = [
   { label: '产品选型', to: '/category/selection' },
   { label: '安装调试', to: '/category/software' },
-  { label: '通讯集成', to: '/category/integration' },
+  { label: '通讯与协议', to: '/category/communication' },
+  { label: '二次开发', to: '/category/development' },
   { label: '故障排查', to: '/category/troubleshooting' }
 ]
 

@@ -90,7 +90,7 @@ function openSearch(word = '') {
         <div class="section-head">
           <div>
             <h2>按栏目查找</h2>
-            <p>七条主线，从产品到现场，再到系统集成。</p>
+            <p>八条主线，从产品到现场，再到系统集成。</p>
           </div>
           <button class="section-link" type="button" @click="openSearch()">
             全文搜索 <Icon name="search" :size="12" />
