@@ -11,7 +11,6 @@ import Icon from './Icon.vue'
           HIKROBOT <b>KB</b>
         </span>
         <p>面向固定式读码器、手持巴枪与 PDA 场景的读码知识库。把选型、部署、通讯和排障放在同一个入口。</p>
-        <span class="footer-tag">示例知识库 · 非官方站点</span>
       </div>
 
       <div class="footer-col">
@@ -42,9 +41,9 @@ import Icon from './Icon.vue'
     </div>
 
     <div class="footer-bottom">
-      <span>© 2026 读码器知识中心 · 演示项目</span>
+      <span>© 2026 读码器知识中心</span>
       <span class="footer-disclaimer">
-        本站为示例知识库，非海康机器人官方站点；产品参数、软件与操作请以官方手册和最新固件为准。
+        非海康机器人官方站点；产品参数、软件与操作请以官方手册和最新固件为准。
       </span>
       <span class="footer-build">Vue 3 · Vite · GitHub Pages</span>
     </div>
@@ -117,15 +116,6 @@ import Icon from './Icon.vue'
 
 .footer-bars i:nth-child(4) {
   height: 13px;
-}
-
-.footer-tag {
-  display: inline-block;
-  padding: 5px 9px;
-  font-size: 12px;
-  color: #a7bdd4;
-  border: 1px solid #2a4663;
-  border-radius: 2px;
 }
 
 .footer-col {

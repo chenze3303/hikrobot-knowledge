@@ -81,7 +81,6 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
       >
         <Icon name="download" :size="18" />
       </a>
-      <span class="sample-pill">示例库</span>
     </div>
   </header>
 </template>
@@ -306,16 +305,6 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
   border-color: rgba(146, 186, 228, 0.3);
 }
 
-.sample-pill {
-  padding: 4px 9px;
-  font-size: 11.5px;
-  letter-spacing: 0.04em;
-  color: #ffc9a3;
-  background: rgba(255, 122, 26, 0.12);
-  border: 1px solid rgba(255, 122, 26, 0.4);
-  border-radius: 2px;
-}
-
 .site-header :focus-visible {
   outline-color: #7cc4ff;
 }
@@ -331,7 +320,6 @@ const isActive = (link) => link.to === `/category/${activeCategory.value}`
   }
   .header-nav,
   .header-icon-link,
-  .sample-pill,
   .search-trigger span,
   .search-trigger kbd {
     display: none;

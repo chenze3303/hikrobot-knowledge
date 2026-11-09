@@ -4,11 +4,11 @@
 
 **在线访问**：<https://chenze3303.github.io/hikrobot-knowledge/>
 
-> 本项目是示例知识库，不是海康机器人官方站点。产品参数、软件版本与操作步骤请以官方手册和最新固件为准。
+> 本项目是个人整理的读码器知识库，不是海康机器人官方站点。产品参数、软件版本与操作步骤请以官方手册和最新固件为准。
 
 ## 功能
 
-- **首页**：产品主视觉、9 个栏目入口、最近更新与高频问题
+- **首页**：产品主视觉、8 个栏目入口、最近更新与高频问题
 - **栏目页**：栏目说明、关键词、栏目内筛选、文档列表
 - **文章页**：Markdown 正文与图片、自动目录、阅读进度、代码复制、一键导出 PDF、反馈、上下篇、相关文档
 - **视频教程**：封面墙、悬停放大与播放脉冲、点击新标签页观看；视频文件可托管在仓库或外部平台
@@ -38,7 +38,6 @@ npm run preview
 src/
   content/                # Markdown 正文（按栏目分文件夹）
     selection/
-    applications/
     installation/
     software/
     communication/
@@ -60,7 +59,7 @@ public/
 
 ## 新增或替换内容
 
-在 `src/content/<栏目>/` 下新增一个 `.md` 文件即可，文件名就是文章 slug（URL 中的 `article/xxx`）。
+当前 `src/content/` 下还没有文档，各栏目显示「内容整理中」。在 `src/content/<栏目>/` 下新增一个 `.md` 文件即可，文件名就是文章 slug（URL 中的 `article/xxx`）。
 
 Frontmatter 示例：
 
@@ -108,15 +107,15 @@ featured: true
 
 ```js
 {
-  id: 'idmvs-read-demo',
-  title: '固定式读码器读码全流程演示',
+  id: 'idmvs-quickstart',
+  title: 'IDMVS 连接与实时预览',
   summary: '一句话说明视频内容。',
-  cover: 'images/videos/idmvs-read-demo.jpg',
-  src: 'videos/idmvs-read-demo.mp4',
+  cover: 'images/videos/idmvs-quickstart.jpg',
+  src: 'videos/idmvs-quickstart.mp4',
   link: '',                 // 外部平台地址，填了优先使用
-  duration: '00:10',
+  duration: '03:24',
   level: '入门',
-  tags: ['IDMVS', '读码'],
+  tags: ['IDMVS', '连接'],
   updated: '2026-11-09',
   order: 1
 }
@@ -159,4 +158,4 @@ featured: true
 
 ## 说明
 
-示例文章中的型号参数、端口、触发字符串等均用于演示结构，可能随产品版本变化。正式上线前请用官方手册逐篇校对。
+站内文档的型号参数、端口、触发字符串等请以海康机器人官方最新手册为准。

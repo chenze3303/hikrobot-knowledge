@@ -218,7 +218,6 @@ async function exportPdf() {
             {{ article.category.title }}
           </RouterLink>
           <span class="head-level">{{ article.level }}</span>
-          <span class="head-note">示例文档</span>
           <div class="head-actions">
             <button type="button" class="meta-action" @click="copyLink">
               <Icon :name="copied ? 'check' : 'copy'" :size="12" />
@@ -251,13 +250,13 @@ async function exportPdf() {
           <p class="print-source">
             {{ article.title }} · {{ article.category.title }} · {{ articleUrl }}
             <br />
-            本文来自「海康机器人读码器知识中心」示例知识库，型号参数与操作步骤请以海康机器人官方最新资料为准。
+            本文来自「海康机器人读码器知识中心」，型号参数与操作步骤请以海康机器人官方最新资料为准。
           </p>
 
           <div class="feedback-box">
             <div>
               <strong>这篇文档对你有帮助吗？</strong>
-              <span>你的反馈会用于改进示例内容结构。</span>
+              <span>你的反馈会用于改进内容结构。</span>
             </div>
             <div class="feedback-actions">
               <button
@@ -321,7 +320,7 @@ async function exportPdf() {
           <div class="rail-card help-card">
             <span class="help-icon"><Icon name="info" :size="17" /></span>
             <b>参数以官方手册为准</b>
-            <p>本站为示例知识库，型号参数、软件版本与操作步骤请与海康机器人最新资料核对。</p>
+            <p>型号参数、软件版本与操作步骤请与海康机器人最新资料核对。</p>
             <a href="https://www.hikrobotics.com/cn/machinevision/service/download?module=0" target="_blank" rel="noopener">
               打开下载中心 <Icon name="external" :size="11" />
             </a>
@@ -407,20 +406,6 @@ async function exportPdf() {
 }
 
 .head-level,
-.head-note {
-  padding: 4px 8px;
-  font-size: 11.5px;
-  color: var(--muted-2);
-  border: 1px solid #e0e9f2;
-  border-radius: 2px;
-}
-
-.head-note {
-  color: #a34b0a;
-  background: #fff8f1;
-  border-color: #ffe2c9;
-}
-
 .article-head h1 {
   max-width: 850px;
   margin: 15px 0 11px;

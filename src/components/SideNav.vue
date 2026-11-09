@@ -126,13 +126,14 @@ const groupCategories = (group) => categories.filter((category) => group.categor
                 <span>{{ article.title }}</span>
               </RouterLink>
             </template>
+            <span v-if="!countOf(category.id)" class="article-empty">暂无内容</span>
           </div>
         </div>
       </section>
 
       <div class="tree-note">
         <span class="note-dot" />
-        <p>示例内容框架。正式参数与操作请以海康机器人官方手册为准。</p>
+        <p>参数与操作请以海康机器人官方手册为准。</p>
       </div>
     </nav>
   </aside>
@@ -344,6 +345,14 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 .article-link:hover {
   color: #1d5f9e;
   background: #f0f6fd;
+}
+
+.article-empty {
+  display: block;
+  padding: 5px 8px 6px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--muted-2);
 }
 
 .article-link.active {

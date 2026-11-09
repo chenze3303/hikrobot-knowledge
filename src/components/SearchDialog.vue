@@ -3,7 +3,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { categories, hotSearches } from '../data/categories'
 import { searchArticles, recentArticles } from '../data/knowledge'
-import { searchVideos, videoHref } from '../data/videos'
+import { searchVideos, videoHref, getVideos } from '../data/videos'
 import Icon from './Icon.vue'
 
 const props = defineProps({
@@ -28,6 +28,7 @@ const results = computed(() => {
 })
 const showEmpty = computed(() => query.value.trim() && results.value.length === 0)
 const suggestions = computed(() => recentArticles.slice(0, 5))
+const indexEmpty = computed(() => !recentArticles.length && !getVideos().length)
 
 watch(
   () => props.open,
@@ -120,7 +121,7 @@ function highlight(text) {
   <Teleport to="body">
     <Transition name="search-fade">
       <div v-if="open" class="search-layer" @mousedown.self="close">
-        <div ref="panelRef" class="search-panel" role="dialog" aria-modal="true" aria-label="搜索文档" @keydown="onPanelKeydown">
+        <div ref="panelRef" class="search-panel" :class="{ 'is-compact': indexEmpty }" role="dialog" aria-modal="true" aria-label="搜索文档" @keydown="onPanelKeydown">
           <div class="search-head">
             <div class="search-input-wrap">
               <Icon name="search" :size="19" />
@@ -149,18 +150,21 @@ function highlight(text) {
                 </button>
               </div>
 
-              <div class="search-section-label recent-label">最近更新</div>
-              <button
-                v-for="article in suggestions"
-                :key="article.slug"
-                class="recent-row"
-                type="button"
-                @click="pick(article)"
-              >
-                <Icon name="book" :size="15" />
-                <span>{{ article.title }}</span>
-                <small>{{ article.category?.title }}</small>
-              </button>
+              <template v-if="!indexEmpty">
+                <div class="search-section-label recent-label">最近更新</div>
+                <button
+                  v-for="article in suggestions"
+                  :key="article.slug"
+                  class="recent-row"
+                  type="button"
+                  @click="pick(article)"
+                >
+                  <Icon name="book" :size="15" />
+                  <span>{{ article.title }}</span>
+                  <small>{{ article.category?.title }}</small>
+                </button>
+              </template>
+              <p v-else class="search-idle-empty">文档与视频整理中，发布后即可在这里搜索。</p>
             </div>
 
             <div v-else-if="showEmpty" class="search-empty">
@@ -230,6 +234,10 @@ function highlight(text) {
   border-radius: 5px;
   box-shadow: 0 30px 80px rgba(1, 8, 18, 0.5);
   overflow: hidden;
+}
+
+.search-panel.is-compact {
+  align-self: flex-start;
 }
 
 .search-head {
@@ -386,6 +394,13 @@ function highlight(text) {
 .recent-row small {
   font-size: 12px;
   color: var(--muted);
+}
+
+.search-idle-empty {
+  padding: 6px 10px 2px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted-2);
 }
 
 .search-results {

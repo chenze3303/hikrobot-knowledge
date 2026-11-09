@@ -7,8 +7,8 @@ export const groups = [
     id: 'product',
     index: '01',
     label: '产品与方案',
-    description: '选型、系列差异与行业落地',
-    categories: ['selection', 'applications']
+    description: '读码器选型与系列差异',
+    categories: ['selection']
   },
   {
     id: 'deploy',
@@ -43,16 +43,6 @@ export const categories = [
     tagline: '选对型号，比调参更重要',
     description: '从读码类型、工作距离、视野、节拍到产品系列，快速锁定适合的固定式读码器、手持巴枪或 PDA。',
     keywords: ['ID2000', 'ID3000', 'ID5000', 'IDH', 'IDP', '选型']
-  },
-  {
-    id: 'applications',
-    title: '行业应用',
-    short: '应用',
-    icon: 'factory',
-    group: 'product',
-    tagline: '把读码能力放进真实产线',
-    description: '物流动态读码、3C 电子 DPM、锂电与汽车零部件追溯，按行业场景组织部署要点与验收标准。',
-    keywords: ['物流', '3C', '锂电', '汽车', 'DPM', '动态读码']
   },
   {
     id: 'installation',

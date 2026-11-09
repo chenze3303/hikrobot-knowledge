@@ -63,7 +63,7 @@ watch(
       </div>
     </header>
 
-    <div class="cat-toolbar">
+    <div v-if="list.length" class="cat-toolbar">
       <div class="toolbar-label">
         <span>{{ listLabel }}</span>
       </div>
@@ -118,6 +118,13 @@ watch(
         </div>
         <span class="doc-arrow"><Icon name="arrowRight" :size="15" /></span>
       </RouterLink>
+    </div>
+
+    <div v-else-if="!list.length" class="cat-empty">
+      <span class="cat-empty-icon"><Icon :name="isVideos ? 'play' : 'book'" :size="24" /></span>
+      <p>这个栏目还没有{{ isVideos ? '视频' : '文档' }}</p>
+      <span class="cat-empty-hint">内容整理中，发布后会出现在这里。</span>
+      <RouterLink to="/" class="btn btn-ghost">返回知识库</RouterLink>
     </div>
 
     <div v-else class="cat-empty">
@@ -597,6 +604,22 @@ watch(
 .cat-empty p {
   font-size: 15px;
   color: var(--ink-soft);
+}
+
+.cat-empty-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  color: #6b8bab;
+  background: #f3f8fd;
+  border: 1px solid #e2eefb;
+  border-radius: 50%;
+}
+
+.cat-empty-hint {
+  font-size: 13px;
+  color: var(--muted-2);
 }
 
 .cat-pager {

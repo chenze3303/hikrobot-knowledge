@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import Icon from '../components/Icon.vue'
 import { categories } from '../data/categories'
-import { getCategoryArticles, recentArticles, stats } from '../data/knowledge'
+import { articles, getCategoryArticles, recentArticles, stats } from '../data/knowledge'
 import { getVideos } from '../data/videos'
 import id2020 from '../assets/id2020.png'
 
@@ -16,13 +16,14 @@ const categoryCards = computed(() =>
   }))
 )
 
-const hotDocs = [
-  { title: '读不到码：10 步排查', slug: 'no-read', tag: '排障' },
-  { title: 'TCP / UDP 触发与结果输出', slug: 'tcp-trigger', tag: '调试' },
-  { title: '安装角度与工作距离', slug: 'mounting-guide', tag: '安装' },
-  { title: 'IDMVS 客户端快速上手', slug: 'idmvs-quickstart', tag: '软件' },
-  { title: '固定式读码器选型方法', slug: 'fixed-reader-selection', tag: '选型' }
-]
+const hotDocs = [...articles]
+  .sort((a, b) => a.order - b.order || b.updated.localeCompare(a.updated))
+  .slice(0, 5)
+  .map((article) => ({
+    title: article.title,
+    slug: article.slug,
+    tag: article.category?.short || article.category?.title || ''
+  }))
 
 function openSearch(word = '') {
   window.dispatchEvent(new CustomEvent('kb:search', { detail: word }))
@@ -60,7 +61,7 @@ function openSearch(word = '') {
             </div>
             <div>
               <strong>{{ stats.articles }}</strong>
-              <span>示例文档</span>
+              <span>篇文档</span>
             </div>
             <div>
               <strong>{{ stats.series }}</strong>
@@ -84,7 +85,7 @@ function openSearch(word = '') {
             <span><b>5 mm</b> 镜头</span>
             <span><b>80 码/秒</b> 读码</span>
           </div>
-          <div class="visual-note">MV-ID2020 系列 · 示例参数</div>
+          <div class="visual-note">MV-ID2020 系列</div>
         </div>
       </div>
     </section>
@@ -94,7 +95,7 @@ function openSearch(word = '') {
         <div class="section-head">
           <div>
             <h2>按栏目查找</h2>
-            <p>九条主线，从产品到现场，再到集成与实操。</p>
+            <p>八条主线，从产品到现场，再到集成与实操。</p>
           </div>
           <button class="section-link" type="button" @click="openSearch()">
             全文搜索 <Icon name="search" :size="12" />
@@ -109,7 +110,7 @@ function openSearch(word = '') {
             </div>
             <p>{{ category.description }}</p>
             <div class="card-foot">
-              <span class="card-count">{{ category.count }} {{ category.unit }}</span>
+              <span class="card-count">{{ category.count ? `${category.count} ${category.unit}` : '待补充' }}</span>
               <span class="card-arrow"><Icon name="arrowRight" :size="13" /></span>
             </div>
           </RouterLink>
@@ -117,40 +118,50 @@ function openSearch(word = '') {
       </section>
 
       <section class="doc-section">
-        <div class="recent-block">
-          <div class="section-head">
-            <div>
-              <h2>最近更新</h2>
-            </div>
-          </div>
-          <div class="recent-list">
-            <RouterLink v-for="article in recentArticles" :key="article.slug" :to="`/article/${article.slug}`" class="recent-item">
-              <span class="recent-main">
-                <span class="recent-title">{{ article.title }}</span>
-                <span class="recent-meta">{{ article.category?.title }}</span>
-              </span>
-              <Icon name="arrowRight" :size="13" class="recent-arrow" />
-            </RouterLink>
+        <div v-if="!recentArticles.length" class="doc-empty">
+          <span class="doc-empty-icon"><Icon name="book" :size="20" /></span>
+          <div>
+            <b>内容整理中</b>
+            <p>文档发布后会按更新时间出现在这里，栏目结构已经就绪。</p>
           </div>
         </div>
 
-        <div class="hot-block">
-          <div class="section-head">
-            <div>
-              <h2>高频问题</h2>
+        <template v-else>
+          <div class="recent-block">
+            <div class="section-head">
+              <div>
+                <h2>最近更新</h2>
+              </div>
+            </div>
+            <div class="recent-list">
+              <RouterLink v-for="article in recentArticles" :key="article.slug" :to="`/article/${article.slug}`" class="recent-item">
+                <span class="recent-main">
+                  <span class="recent-title">{{ article.title }}</span>
+                  <span class="recent-meta">{{ article.category?.title }}</span>
+                </span>
+                <Icon name="arrowRight" :size="13" class="recent-arrow" />
+              </RouterLink>
             </div>
           </div>
-          <div class="hot-list">
-            <RouterLink v-for="(doc, index) in hotDocs" :key="doc.slug" :to="`/article/${doc.slug}`" class="hot-item">
-              <span class="hot-index">{{ String(index + 1).padStart(2, '0') }}</span>
-              <span>{{ doc.title }}</span>
-              <b>{{ doc.tag }}</b>
+
+          <div class="hot-block">
+            <div class="section-head">
+              <div>
+                <h2>高频问题</h2>
+              </div>
+            </div>
+            <div class="hot-list">
+              <RouterLink v-for="(doc, index) in hotDocs" :key="doc.slug" :to="`/article/${doc.slug}`" class="hot-item">
+                <span class="hot-index">{{ String(index + 1).padStart(2, '0') }}</span>
+                <span>{{ doc.title }}</span>
+                <b>{{ doc.tag }}</b>
+              </RouterLink>
+            </div>
+            <RouterLink to="/category/troubleshooting" class="hot-more">
+              查看全部故障排查 <Icon name="arrowRight" :size="13" />
             </RouterLink>
           </div>
-          <RouterLink to="/category/troubleshooting" class="hot-more">
-            查看全部故障排查 <Icon name="arrowRight" :size="13" />
-          </RouterLink>
-        </div>
+        </template>
       </section>
 
       <section class="support-banner">
@@ -478,7 +489,7 @@ function openSearch(word = '') {
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 
@@ -566,6 +577,42 @@ function openSearch(word = '') {
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   gap: 46px;
   margin-bottom: 50px;
+}
+
+.doc-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 26px 28px;
+  background: #fff;
+  border: 1px solid #dce6f1;
+}
+
+.doc-empty-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  color: #6b8bab;
+  background: #f3f8fd;
+  border: 1px solid #e2eefb;
+  border-radius: 50%;
+}
+
+.doc-empty b {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1c334b;
+}
+
+.doc-empty p {
+  margin-top: 4px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--muted);
 }
 
 .recent-list {
@@ -737,7 +784,7 @@ function openSearch(word = '') {
     max-width: 460px;
   }
   .category-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
   }
   .doc-section {
     grid-template-columns: minmax(0, 1fr);
@@ -762,9 +809,6 @@ function openSearch(word = '') {
   }
   .category-grid {
     grid-template-columns: 1fr 1fr;
-  }
-  .category-card:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
   }
   .support-banner {
     flex-direction: column;
