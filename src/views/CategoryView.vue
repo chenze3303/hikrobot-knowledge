@@ -362,19 +362,27 @@ watch(
 /* ---------- video cards ---------- */
 .video-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
 }
 
 .video-card {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 720px;
   overflow: hidden;
   text-decoration: none;
   background: #fff;
   border: 1px solid #dce6f1;
   border-radius: 4px;
+  container-type: inline-size;
   transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+/* 只有一条视频时不要让封面撑满整行，保持与多列网格一致的视觉重量 */
+.video-card:only-child {
+  justify-self: center;
 }
 
 .video-card:hover {
@@ -527,6 +535,22 @@ watch(
   color: #0b63bd;
 }
 
+/* 三列排布时卡片变窄，隐藏次要说明，给标题和标签留空间 */
+@container (max-width: 340px) {
+  .video-open {
+    display: none;
+  }
+  .video-body {
+    padding: 14px 14px 15px;
+  }
+  .video-body h2 {
+    font-size: 15.5px;
+  }
+  .video-body p {
+    font-size: 13px;
+  }
+}
+
 .video-note {
   display: flex;
   align-items: flex-start;
@@ -672,9 +696,6 @@ watch(
   .doc-arrow {
     width: 24px;
     height: 24px;
-  }
-  .video-grid {
-    grid-template-columns: 1fr;
   }
   .video-body {
     padding: 14px 15px 15px;
