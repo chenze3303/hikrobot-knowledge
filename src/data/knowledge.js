@@ -100,7 +100,7 @@ export const articles = Object.entries(files)
 export const featuredArticles = articles.filter((article) => article.featured)
 
 export const recentArticles = [...articles]
-  .sort((a, b) => b.updated.localeCompare(a.updated))
+  .sort((a, b) => b.updated.localeCompare(a.updated) || b.order - a.order)
   .slice(0, 6)
 
 export const stats = {
