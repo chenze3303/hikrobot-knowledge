@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import Icon from '../components/Icon.vue'
 import { categories } from '../data/categories'
-import { articles, getCategoryArticles, recentArticles, stats } from '../data/knowledge'
+import { getCategoryArticles, recentArticles, stats } from '../data/knowledge'
 import { getVideos } from '../data/videos'
 import id2020 from '../assets/id2020.png'
 
@@ -16,8 +16,7 @@ const categoryCards = computed(() =>
   }))
 )
 
-const hotDocs = [...articles]
-  .sort((a, b) => a.order - b.order || b.updated.localeCompare(a.updated))
+const hotDocs = getCategoryArticles('troubleshooting')
   .slice(0, 5)
   .map((article) => ({
     title: article.title,
@@ -117,7 +116,7 @@ function openSearch(word = '') {
         </div>
       </section>
 
-      <section class="doc-section">
+      <section class="doc-section" :class="{ 'is-single': recentArticles.length && !hotDocs.length }">
         <div v-if="!recentArticles.length" class="doc-empty">
           <span class="doc-empty-icon"><Icon name="book" :size="20" /></span>
           <div>
@@ -144,7 +143,7 @@ function openSearch(word = '') {
             </div>
           </div>
 
-          <div class="hot-block">
+          <div v-if="hotDocs.length" class="hot-block">
             <div class="section-head">
               <div>
                 <h2>高频问题</h2>
@@ -579,6 +578,16 @@ function openSearch(word = '') {
   margin-bottom: 50px;
 }
 
+.doc-section.is-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.doc-section.is-single .recent-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 46px;
+}
+
 .doc-empty {
   grid-column: 1 / -1;
   display: flex;
@@ -670,6 +679,7 @@ function openSearch(word = '') {
 .hot-list {
   border-top: 1px solid #dce6f1;
 }
+
 
 .hot-item {
   display: flex;
@@ -790,6 +800,9 @@ function openSearch(word = '') {
     grid-template-columns: minmax(0, 1fr);
     gap: 40px;
   }
+  .doc-section.is-single .recent-list {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 760px) {
@@ -809,6 +822,9 @@ function openSearch(word = '') {
   }
   .category-grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .doc-section.is-single .recent-list {
+    grid-template-columns: 1fr;
   }
   .support-banner {
     flex-direction: column;

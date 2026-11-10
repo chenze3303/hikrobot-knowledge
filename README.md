@@ -59,7 +59,7 @@ public/
 
 ## 新增或替换内容
 
-当前 `src/content/` 下还没有文档，各栏目显示「内容整理中」。在 `src/content/<栏目>/` 下新增一个 `.md` 文件即可，文件名就是文章 slug（URL 中的 `article/xxx`）。
+在 `src/content/<栏目>/` 下新增一个 `.md` 文件即可，文件名就是文章 slug（URL 中的 `article/xxx`）。没有文档的栏目会自动显示「内容整理中」。
 
 Frontmatter 示例：
 

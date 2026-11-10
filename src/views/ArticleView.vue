@@ -17,6 +17,7 @@ const activeHeading = ref('')
 const progress = ref(0)
 const feedback = ref('')
 const copied = ref(false)
+const tocCollapsed = ref(typeof window !== 'undefined' && window.innerWidth <= 760)
 
 const article = computed(() => getArticle(route.params.slug))
 const html = computed(() => (article.value ? marked.parse(article.value.body) : ''))
@@ -292,21 +293,29 @@ async function exportPdf() {
         </div>
 
         <aside class="article-rail">
-          <div v-if="toc.length" class="rail-card toc-card">
-            <div class="rail-title">
-              <b>本文目录</b>
-            </div>
+          <div v-if="toc.length" class="rail-card toc-card" :class="{ collapsed: tocCollapsed }">
             <button
-              v-for="item in toc"
-              :key="item.id"
               type="button"
-              class="toc-item"
-              :class="{ active: activeHeading === item.id, sub: item.level === 3 }"
-              @click="scrollTo(item.id)"
+              class="rail-title toc-title"
+              :aria-expanded="!tocCollapsed"
+              @click="tocCollapsed = !tocCollapsed"
             >
-              <span class="toc-line" />
-              {{ item.text }}
+              <b>本文目录</b>
+              <Icon name="chevron" :size="13" class="toc-chevron" :class="{ rotated: !tocCollapsed }" />
             </button>
+            <div v-show="!tocCollapsed" class="toc-body">
+              <button
+                v-for="item in toc"
+                :key="item.id"
+                type="button"
+                class="toc-item"
+                :class="{ active: activeHeading === item.id, sub: item.level === 3 }"
+                @click="scrollTo(item.id)"
+              >
+                <span class="toc-line" />
+                {{ item.text }}
+              </button>
+            </div>
           </div>
 
           <div class="rail-card info-card">
@@ -521,6 +530,22 @@ async function exportPdf() {
   font-size: 14px;
   font-weight: 700;
   color: #2c4a68;
+}
+
+.toc-title {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-bottom: 1px dashed #e1e9f2;
+  cursor: default;
+  pointer-events: none;
+}
+
+.toc-chevron {
+  display: none;
 }
 
 .toc-item {
@@ -839,6 +864,35 @@ async function exportPdf() {
   }
   .article-rail {
     grid-template-columns: 1fr;
+  }
+  .toc-card {
+    max-height: none;
+  }
+  .toc-title {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+  .toc-title b {
+    font-size: 13.5px;
+  }
+  .toc-chevron {
+    display: block;
+    color: var(--muted-2);
+    transition: transform 0.18s ease;
+  }
+  .toc-chevron.rotated {
+    transform: rotate(180deg);
+  }
+  .toc-card.collapsed {
+    padding-bottom: 12px;
+  }
+  .toc-card.collapsed .toc-title {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
   }
   .feedback-box {
     align-items: flex-start;

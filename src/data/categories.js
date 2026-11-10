@@ -71,8 +71,8 @@ export const categories = [
     icon: 'network',
     group: 'integration',
     tagline: '让读码结果稳定送达',
-    description: 'TCP/IP、RS232/485、PLC 与 Profinet / EtherNet/IP，以及输出报文、分隔符与多码拼接的约定。',
-    keywords: ['TCP', '串口', 'PLC', 'Profinet', 'EtherNet/IP', '输出格式']
+    description: 'TCP/IP、RS232/485，以及 Profinet、EtherNet/IP、MC & SLMP、Modbus TCP、Fins 等 PLC 通讯的组态与排查。',
+    keywords: ['TCP', '串口', 'PLC', 'Profinet', 'EtherNet/IP', 'Modbus', 'Fins', 'MC']
   },
   {
     id: 'development',

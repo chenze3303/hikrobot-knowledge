@@ -130,12 +130,12 @@ const groupCategories = (group) => categories.filter((category) => group.categor
           </div>
         </div>
       </section>
-
-      <div class="tree-note">
-        <span class="note-dot" />
-        <p>参数与操作请以海康机器人官方手册为准。</p>
-      </div>
     </nav>
+
+    <div class="tree-note">
+      <span class="note-dot" />
+      <p>参数与操作请以海康机器人官方手册为准。</p>
+    </div>
   </aside>
 </template>
 
@@ -221,7 +221,8 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 
 .side-tree {
   flex: 1;
-  padding: 14px 14px 30px;
+  min-height: 0;
+  padding: 14px 14px 18px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #c9d6e4 transparent;
@@ -386,8 +387,9 @@ const groupCategories = (group) => categories.filter((category) => group.categor
 
 .tree-note {
   display: flex;
+  flex: none;
   gap: 8px;
-  margin: 24px 8px 0;
+  margin: 0 14px 14px;
   padding: 12px 11px;
   background: #fff;
   border: 1px solid #e1e9f2;
