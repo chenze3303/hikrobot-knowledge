@@ -414,7 +414,17 @@ async function exportPdf() {
   border-radius: 2px;
 }
 
-.head-level,
+.head-level {
+  padding: 3px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #5a6f86;
+  background: #f4f7fb;
+  border: 1px solid #e0e8f2;
+  border-radius: 2px;
+}
+
 .article-head h1 {
   max-width: 850px;
   margin: 15px 0 11px;
@@ -857,6 +867,11 @@ async function exportPdf() {
     gap: 11px;
   }
   .meta-action {
+    margin-left: 0;
+  }
+  .head-actions {
+    width: 100%;
+    justify-content: space-between;
     margin-left: 0;
   }
   .article-doc {
