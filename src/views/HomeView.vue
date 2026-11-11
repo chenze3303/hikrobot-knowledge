@@ -109,7 +109,7 @@ function openSearch(word = '') {
             </div>
             <p>{{ category.description }}</p>
             <div class="card-foot">
-              <span class="card-count">{{ category.count ? `${category.count} ${category.unit}` : '待补充' }}</span>
+              <span class="card-count">{{ category.count ? `${category.count} ${category.unit}` : '内容整理中' }}</span>
               <span class="card-arrow"><Icon name="arrowRight" :size="13" /></span>
             </div>
           </RouterLink>
