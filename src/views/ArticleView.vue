@@ -20,7 +20,12 @@ const copied = ref(false)
 const tocCollapsed = ref(typeof window !== 'undefined' && window.innerWidth <= 760)
 
 const article = computed(() => getArticle(route.params.slug))
-const html = computed(() => (article.value ? marked.parse(article.value.body) : ''))
+const html = computed(() => {
+  if (!article.value) return ''
+  return marked
+    .parse(article.value.body)
+    .replaceAll('src="/images/', `src="${import.meta.env.BASE_URL}images/`)
+})
 const articleUrl = computed(() =>
   article.value
     ? `${window.location.origin}${window.location.pathname}#/article/${article.value.slug}`
