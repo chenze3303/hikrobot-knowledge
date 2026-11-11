@@ -306,6 +306,10 @@ const groupCategories = (group) => categories.filter((category) => group.categor
   font-variant-numeric: tabular-nums;
 }
 
+.category-row.active .category-count {
+  color: var(--muted);
+}
+
 .category-toggle {
   display: grid;
   place-items: center;

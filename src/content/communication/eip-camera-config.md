@@ -4,7 +4,7 @@ summary: "切到 Normal 模式、打开 EIP 使能、设定 200 字节的输入�
 tags: [EtherNet/IP, EIP, IDMVS, 相机配置, PLC]
 level: 进阶
 updated: 2026-11-10
-order: 7
+order: 8
 ---
 
 # EtherNet/IP 相机侧配置（IDMVS）
